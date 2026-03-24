@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <defs>
+    <linearGradient id="prh" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1A3FC4"/>
+      <stop offset="100%" stop-color="#4F72F0"/>
+    </linearGradient>
+    <linearGradient id="ach" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FF5C00"/>
+      <stop offset="100%" stop-color="#FF9040"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background glow -->
+  <circle cx="100" cy="100" r="80" fill="#EEF2FF" fill-opacity="0.7"/>
+  <circle cx="100" cy="100" r="62" fill="#EEF2FF"/>
+  <circle cx="100" cy="100" r="50" fill="url(#prh)" fill-opacity="0.08"/>
+
+  <!-- Handshake hands illustration -->
+  <!-- Left arm / hand (brand owner) -->
+  <rect x="30" y="88" width="80" height="22" rx="11" fill="#F59E0B"/>
+  <rect x="30" y="88" width="76" height="22" rx="11" fill="#1A3FC4"/>
+  <!-- Fingers left -->
+  <rect x="90" y="82" width="18" height="12" rx="6" fill="#1A3FC4"/>
+  <rect x="90" y="74" width="16" height="12" rx="6" fill="#1A3FC4"/>
+  <rect x="84" y="80" width="14" height="11" rx="5.5" fill="#2952DC"/>
+
+  <!-- Right arm / hand (factory) -->
+  <rect x="90" y="88" width="80" height="22" rx="11" fill="#FF5C00"/>
+  <!-- Fingers right -->
+  <rect x="92" y="82" width="18" height="12" rx="6" fill="#FF5C00"/>
+  <rect x="94" y="74" width="16" height="12" rx="6" fill="#FF5C00"/>
+  <rect x="106" y="80" width="14" height="11" rx="5.5" fill="#FF7030"/>
+
+  <!-- Clasped center -->
+  <ellipse cx="100" cy="99" rx="14" ry="11" fill="white" fill-opacity="0.25"/>
+
+  <!-- Left label tag -->
+  <rect x="22" y="62" width="42" height="20" rx="6" fill="url(#prh)" fill-opacity="0.15"/>
+  <rect x="26" y="67" width="34" height="5" rx="2.5" fill="#1A3FC4" fill-opacity="0.5"/>
+  <rect x="26" y="74" width="22" height="4" rx="2" fill="#1A3FC4" fill-opacity="0.3"/>
+
+  <!-- Right label tag -->
+  <rect x="136" y="62" width="42" height="20" rx="6" fill="url(#ach)" fill-opacity="0.15"/>
+  <rect x="140" y="67" width="34" height="5" rx="2.5" fill="#FF5C00" fill-opacity="0.5"/>
+  <rect x="140" y="74" width="22" height="4" rx="2" fill="#FF5C00" fill-opacity="0.3"/>
+
+  <!-- Stars burst -->
+  <circle cx="100" cy="68" r="8" fill="#F59E0B" fill-opacity="0.15"/>
+  <path d="M100 62 L101.5 66.5 L106 66.5 L102.5 69 L104 73.5 L100 71 L96 73.5 L97.5 69 L94 66.5 L98.5 66.5 Z" fill="#F59E0B" fill-opacity="0.8"/>
+
+  <!-- Confetti -->
+  <rect x="50" y="44" width="8" height="8" rx="2" fill="url(#prh)" fill-opacity="0.4" transform="rotate(20 54 48)"/>
+  <rect x="144" y="44" width="8" height="8" rx="2" fill="url(#ach)" fill-opacity="0.4" transform="rotate(-20 148 48)"/>
+  <circle cx="60" cy="152" r="5" fill="url(#prh)" fill-opacity="0.35"/>
+  <circle cx="142" cy="150" r="5" fill="url(#ach)" fill-opacity="0.35"/>
+  <circle cx="36" cy="120" r="4" fill="#F59E0B" fill-opacity="0.5"/>
+  <circle cx="164" cy="120" r="4" fill="#F59E0B" fill-opacity="0.5"/>
+
+  <!-- Value exchange arrows -->
+  <path d="M72 140 Q100 155 128 140" fill="none" stroke="#1A3FC4" stroke-width="1.5" stroke-dasharray="3 4" stroke-opacity="0.35"/>
+  <path d="M128 128 Q100 143 72 128" fill="none" stroke="#FF5C00" stroke-width="1.5" stroke-dasharray="3 4" stroke-opacity="0.35"/>
+</svg>

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="120" y2="120" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0D2260"/>
+      <stop offset="100%" stop-color="#4F72F0"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FF5C00"/>
+      <stop offset="100%" stop-color="#FF8040"/>
+    </linearGradient>
+  </defs>
+  <!-- Background rounded square -->
+  <rect width="120" height="120" rx="28" fill="url(#bg)"/>
+  <!-- Factory building body -->
+  <rect x="22" y="56" width="76" height="42" rx="4" fill="white" fill-opacity="0.18"/>
+  <rect x="28" y="62" width="64" height="36" rx="3" fill="white" fill-opacity="0.92"/>
+  <!-- Roof/top bar -->
+  <rect x="24" y="52" width="72" height="8" rx="4" fill="white"/>
+  <!-- Smokestacks -->
+  <rect x="36" y="28" width="10" height="28" rx="5" fill="white" fill-opacity="0.95"/>
+  <rect x="54" y="22" width="10" height="34" rx="5" fill="white" fill-opacity="0.95"/>
+  <rect x="72" y="30" width="10" height="26" rx="5" fill="white" fill-opacity="0.95"/>
+  <!-- Smoke puffs -->
+  <circle cx="41" cy="24" r="5" fill="white" fill-opacity="0.35"/>
+  <circle cx="59" cy="17" r="6" fill="white" fill-opacity="0.35"/>
+  <circle cx="77" cy="26" r="4.5" fill="white" fill-opacity="0.35"/>
+  <!-- Windows -->
+  <rect x="34" y="70" width="14" height="12" rx="3" fill="#1A3FC4" fill-opacity="0.7"/>
+  <rect x="54" y="70" width="14" height="12" rx="3" fill="#1A3FC4" fill-opacity="0.7"/>
+  <rect x="74" y="70" width="14" height="12" rx="3" fill="#1A3FC4" fill-opacity="0.7"/>
+  <!-- Door -->
+  <rect x="50" y="82" width="18" height="16" rx="3" fill="url(#accent)"/>
+  <!-- Link chain dots - bottom right -->
+  <circle cx="96" cy="22" r="7" fill="url(#accent)"/>
+  <circle cx="96" cy="22" r="3.5" fill="white"/>
+</svg>

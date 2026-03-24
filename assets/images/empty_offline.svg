@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 180" fill="none">
+  <defs>
+    <linearGradient id="pr_off" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1A3FC4"/>
+      <stop offset="100%" stop-color="#4F72F0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Cloud body -->
+  <circle cx="78" cy="82" r="28" fill="#E4E9F2"/>
+  <circle cx="104" cy="74" r="32" fill="#E4E9F2"/>
+  <circle cx="130" cy="82" r="24" fill="#E4E9F2"/>
+  <rect x="54" y="82" width="100" height="30" rx="2" fill="#E4E9F2"/>
+
+  <!-- Cloud highlight -->
+  <circle cx="78" cy="82" r="28" fill="#EEF2FF" fill-opacity="0.5"/>
+  <circle cx="104" cy="74" r="32" fill="#EEF2FF" fill-opacity="0.5"/>
+
+  <!-- X / disconnected slash across cloud -->
+  <line x1="62" y1="58" x2="148" y2="118" stroke="#E0230E" stroke-width="5" stroke-linecap="round"/>
+  <line x1="148" y1="58" x2="62" y2="118" stroke="#E0230E" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- WiFi signal bars (broken) -->
+  <!-- Full outer arc (crossed) -->
+  <path d="M54 136 Q100 106 146 136" fill="none" stroke="#9BACC8" stroke-width="4" stroke-linecap="round" stroke-opacity="0.4"/>
+  <path d="M68 148 Q100 126 132 148" fill="none" stroke="#9BACC8" stroke-width="4" stroke-linecap="round" stroke-opacity="0.4"/>
+
+  <!-- Disconnect bolt -->
+  <circle cx="100" cy="156" r="7" fill="#E0230E" fill-opacity="0.15"/>
+  <circle cx="100" cy="156" r="4" fill="#E0230E"/>
+
+  <!-- Lightning strike side decoration -->
+  <path d="M26 68 L38 52 L34 66 L46 50" stroke="#E88C00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.5"/>
+  <path d="M174 68 L162 52 L166 66 L154 50" stroke="#E88C00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.5"/>
+</svg>
