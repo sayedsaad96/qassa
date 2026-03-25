@@ -1,64 +1,45 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../domain/entities/offer_entity.dart';
+
+part 'offer_remote_datasource.freezed.dart';
+part 'offer_remote_datasource.g.dart';
 
 // ════════════════════════════════════
 // OFFER MODEL
 // ════════════════════════════════════
-class OfferModel {
-  final String id;
-  final String requestId;
-  final String factoryId;
-  final String factoryName;
-  final double factoryRating;
-  final double pricePerPiece;
-  final int leadTimeDays;
-  final String? notes;
-  final String status;
-  final DateTime createdAt;
-  final int quantity;
-  final String productType;
+@freezed
+abstract class OfferModel with _$OfferModel {
+  const OfferModel._();
 
-  const OfferModel({
-    required this.id,
-    required this.requestId,
-    required this.factoryId,
-    required this.factoryName,
-    this.factoryRating = 0.0,
-    required this.pricePerPiece,
-    required this.leadTimeDays,
-    this.notes,
-    this.status = 'pending',
-    required this.createdAt,
-    this.quantity = 0,
-    this.productType = '',
-  });
+  const factory OfferModel({
+    required String id,
+    @JsonKey(name: 'request_id') required String requestId,
+    @JsonKey(name: 'factory_id') required String factoryId,
+    @JsonKey(name: 'factory_name') @Default('مصنع') String factoryName,
+    @JsonKey(name: 'factory_rating') @Default(0.0) double factoryRating,
+    @JsonKey(name: 'price_per_piece') required double pricePerPiece,
+    @JsonKey(name: 'lead_time_days') required int leadTimeDays,
+    String? notes,
+    @Default('pending') String status,
+    @JsonKey(name: 'created_at') required DateTime createdAt,
+    @Default(0) int quantity,
+    @JsonKey(name: 'product_type') @Default('') String productType,
+  }) = _OfferModel;
 
-  factory OfferModel.fromJson(Map<String, dynamic> j) => OfferModel(
-        id: j['id'] as String,
-        requestId: j['request_id'] as String,
-        factoryId: j['factory_id'] as String,
-        factoryName: j['factory_name'] as String? ?? 'مصنع',
-        factoryRating: (j['factory_rating'] as num?)?.toDouble() ?? 0.0,
-        pricePerPiece: (j['price_per_piece'] as num).toDouble(),
-        leadTimeDays: (j['lead_time_days'] as num).toInt(),
-        notes: j['notes'] as String?,
-        status: j['status'] as String? ?? 'pending',
-        createdAt: DateTime.parse(
-            j['created_at'] as String? ?? DateTime.now().toIso8601String()),
-        quantity: (j['quantity'] as num?)?.toInt() ?? 0,
-        productType: j['product_type'] as String? ?? '',
-      );
+  factory OfferModel.fromJson(Map<String, dynamic> json) =>
+      _$OfferModelFromJson(json);
 
   Map<String, dynamic> toInsertJson() => {
-        'request_id': requestId,
-        'factory_id': factoryId,
-        'factory_name': factoryName,
-        'factory_rating': factoryRating,
-        'price_per_piece': pricePerPiece,
-        'lead_time_days': leadTimeDays,
-        if (notes != null) 'notes': notes,
-        'status': 'pending',
-      };
+    'request_id': requestId,
+    'factory_id': factoryId,
+    'factory_name': factoryName,
+    'factory_rating': factoryRating,
+    'price_per_piece': pricePerPiece,
+    'lead_time_days': leadTimeDays,
+    if (notes != null) 'notes': notes,
+    'status': 'pending',
+  };
 
   OfferEntity toEntity() {
     OfferStatus entityStatus;
@@ -104,7 +85,9 @@ class OfferRemoteDataSourceImpl implements OfferRemoteDataSource {
   OfferRemoteDataSourceImpl(this._client);
 
   @override
-  Future<List<Map<String, dynamic>>> getOffersByRequest(String requestId) async {
+  Future<List<Map<String, dynamic>>> getOffersByRequest(
+    String requestId,
+  ) async {
     final offers = await _client
         .from('offers')
         .select()
@@ -118,16 +101,20 @@ class OfferRemoteDataSourceImpl implements OfferRemoteDataSource {
         .maybeSingle();
 
     return List<Map<String, dynamic>>.from(offers)
-        .map((o) => {
-              ...o,
-              'quantity': request?['quantity'] ?? 0,
-              'product_type': request?['product_type'] ?? '',
-            })
+        .map(
+          (o) => {
+            ...o,
+            'quantity': request?['quantity'] ?? 0,
+            'product_type': request?['product_type'] ?? '',
+          },
+        )
         .toList();
   }
 
   @override
-  Future<List<Map<String, dynamic>>> getOffersByFactory(String factoryId) async {
+  Future<List<Map<String, dynamic>>> getOffersByFactory(
+    String factoryId,
+  ) async {
     final offers = await _client
         .from('offers')
         .select('*, requests(quantity, product_type)')
@@ -152,9 +139,6 @@ class OfferRemoteDataSourceImpl implements OfferRemoteDataSource {
 
   @override
   Future<void> updateOfferStatus(String offerId, String status) async {
-    await _client
-        .from('offers')
-        .update({'status': status})
-        .eq('id', offerId);
+    await _client.from('offers').update({'status': status}).eq('id', offerId);
   }
 }

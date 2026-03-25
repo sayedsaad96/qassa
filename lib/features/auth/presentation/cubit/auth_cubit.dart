@@ -1,7 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import '../../domain/entities/user_entity.dart';
-import '../../domain/usecases/send_otp_usecase.dart';
+import '../../domain/usecases/auth_usecases.dart';
+import '../../../../core/services/user_service.dart';
 
 // ── State ─────────────────────────────────────────────
 abstract class AuthState extends Equatable {
@@ -35,11 +36,13 @@ class AuthCubit extends Cubit<AuthState> {
   final SignUpUseCase signUpUseCase;
   final SignInUseCase signInUseCase;
   final SignOutUseCase signOutUseCase;
+  final UserService userService;
 
   AuthCubit({
     required this.signUpUseCase,
     required this.signInUseCase,
     required this.signOutUseCase,
+    required this.userService,
   }) : super(AuthInitial());
 
   Future<void> signUp({
@@ -59,10 +62,10 @@ class AuthCubit extends Cubit<AuthState> {
       brandName: brandName,
     );
 
-    result.fold(
-      (error) => emit(AuthError(error)),
-      (user) => emit(AuthAuthenticated(user)),
-    );
+    result.fold((error) => emit(AuthError(error)), (user) {
+      userService.clearCache(); // clear any previous user's cached data
+      emit(AuthAuthenticated(user));
+    });
   }
 
   Future<void> signIn({required String email, required String password}) async {
@@ -70,13 +73,14 @@ class AuthCubit extends Cubit<AuthState> {
 
     final result = await signInUseCase(email: email, password: password);
 
-    result.fold(
-      (error) => emit(AuthError(error)),
-      (user) => emit(AuthAuthenticated(user)),
-    );
+    result.fold((error) => emit(AuthError(error)), (user) {
+      userService.clearCache(); // clear previous user's cached data
+      emit(AuthAuthenticated(user));
+    });
   }
 
   Future<void> signOut() async {
+    userService.clearCache(); // clear cache BEFORE sign-out
     await signOutUseCase();
     emit(AuthUnauthenticated());
   }

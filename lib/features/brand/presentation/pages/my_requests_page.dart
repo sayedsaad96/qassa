@@ -10,6 +10,7 @@ import '../../../../core/widgets/app_asset_widgets.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/widgets/app_widgets.dart';
+import '../../../../core/utils/app_responsive.dart';
 import '../cubit/requests_cubit.dart';
 import '../../domain/entities/entities.dart';
 
@@ -72,42 +73,44 @@ class _MyRequestsPageState extends State<MyRequestsPage> {
           elevation: 4,
           child: const Icon(Icons.add_rounded, color: Colors.white, size: 28),
         ),
-        body: BlocBuilder<RequestsCubit, RequestsState>(
-          builder: (context, state) {
-            if (state is RequestsLoading) return const AppLoading();
-            if (state is RequestsError) {
-              return NetworkErrorWithIllustration(
-                onRetry: () => sl<RequestsCubit>().loadMyRequests(),
-              );
-            }
-            if (state is RequestsLoaded) {
-              if (state.requests.isEmpty) {
-                return EmptyStateWithIllustration(
-                  illustrationAsset: AppAssets.emptyRequests,
-                  title: 'لسه ماعندكش طلبات',
-                  subtitle: 'ابدأ بإنشاء أول طلب تصنيع واستقبل عروض من مصانع',
-                  ctaLabel: '+ إنشاء طلب',
-                  onCta: () => context.push(AppRoutes.createRequest),
+        body: ResponsiveCenter(
+          child: BlocBuilder<RequestsCubit, RequestsState>(
+            builder: (context, state) {
+              if (state is RequestsLoading) return const AppLoading();
+              if (state is RequestsError) {
+                return NetworkErrorWithIllustration(
+                  onRetry: () => sl<RequestsCubit>().loadMyRequests(),
                 );
               }
-              return RefreshIndicator(
-                onRefresh: () async => sl<RequestsCubit>().loadMyRequests(),
-                color: AppColors.primary,
-                child: ListView.separated(
-                  padding: const EdgeInsets.all(AppConstants.spacingMd),
-                  itemCount: state.requests.length,
-                  separatorBuilder: (_, _) => const SizedBox(height: 10),
-                  itemBuilder: (context, i) => _RequestCard(
-                    request: state.requests[i],
-                    onTap: () => context.push(
-                      '/brand/requests/${state.requests[i].id}/offers',
+              if (state is RequestsLoaded) {
+                if (state.requests.isEmpty) {
+                  return EmptyStateWithIllustration(
+                    illustrationAsset: AppAssets.emptyRequests,
+                    title: 'لسه ماعندكش طلبات',
+                    subtitle: 'ابدأ بإنشاء أول طلب تصنيع واستقبل عروض من مصانع',
+                    ctaLabel: '+ إنشاء طلب',
+                    onCta: () => context.push(AppRoutes.createRequest),
+                  );
+                }
+                return RefreshIndicator(
+                  onRefresh: () async => sl<RequestsCubit>().loadMyRequests(),
+                  color: AppColors.primary,
+                  child: ListView.separated(
+                    padding: const EdgeInsets.all(AppConstants.spacingMd),
+                    itemCount: state.requests.length,
+                    separatorBuilder: (_, _) => const SizedBox(height: 10),
+                    itemBuilder: (context, i) => _RequestCard(
+                      request: state.requests[i],
+                      onTap: () => context.push(
+                        '/brand/requests/${state.requests[i].id}/offers',
+                      ),
                     ),
                   ),
-                ),
-              );
-            }
-            return const SizedBox();
-          },
+                );
+              }
+              return const SizedBox();
+            },
+          ),
         ),
       ),
     );

@@ -15,7 +15,9 @@ class FactoryRepositoryImpl implements FactoryRepository {
   }) async {
     try {
       final data = await _ds.getFactories(specialty: specialty, city: city);
-      return Right(data.map((j) => FactoryModel.fromJson(j).toEntity()).toList());
+      return Right(
+        data.map((j) => FactoryModel.fromJson(j).toEntity()).toList(),
+      );
     } catch (e) {
       return Left(_mapError(e));
     }
@@ -32,9 +34,11 @@ class FactoryRepositoryImpl implements FactoryRepository {
   }
 
   @override
-  Future<Either<String, void>> createFactoryProfile(FactoryEntity factory) async {
+  Future<Either<String, void>> createFactoryProfile(
+    FactoryEntity factory,
+  ) async {
     try {
-      await _ds.createFactory(FactoryModel(
+      final json = FactoryModel(
         id: factory.id,
         ownerId: factory.ownerId,
         name: factory.name,
@@ -43,7 +47,8 @@ class FactoryRepositoryImpl implements FactoryRepository {
         minQuantity: factory.minQuantity,
         leadTimeDays: factory.leadTimeDays,
         createdAt: factory.createdAt,
-      ).toJson());
+      ).toJson()..remove('id'); // let Supabase generate the primary key
+      await _ds.createFactory(json);
       return const Right(null);
     } catch (e) {
       return Left(_mapError(e));
@@ -52,7 +57,9 @@ class FactoryRepositoryImpl implements FactoryRepository {
 
   String _mapError(Object e) {
     final s = e.toString().toLowerCase();
-    if (s.contains('network') || s.contains('socket') || s.contains('connection')) {
+    if (s.contains('network') ||
+        s.contains('socket') ||
+        s.contains('connection')) {
       return 'في مشكلة في الإنترنت، جرب تاني';
     }
     return 'حدث خطأ، حاول مرة أخرى';

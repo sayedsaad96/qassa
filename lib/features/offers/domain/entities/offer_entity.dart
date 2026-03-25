@@ -1,33 +1,27 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'offer_entity.freezed.dart';
+
 enum OfferStatus { pending, accepted, rejected }
 
-class OfferEntity {
-  final String id;
-  final String requestId;
-  final String factoryId;
-  final String factoryName;
-  final double factoryRating;
-  final double pricePerPiece;
-  final int leadTimeDays;
-  final String? notes;
-  final OfferStatus status;
-  final DateTime createdAt;
-  final int quantity;
-  final String productType;
+@freezed
+abstract class OfferEntity with _$OfferEntity {
+  const OfferEntity._();
 
-  const OfferEntity({
-    required this.id,
-    required this.requestId,
-    required this.factoryId,
-    required this.factoryName,
-    this.factoryRating = 0.0,
-    required this.pricePerPiece,
-    required this.leadTimeDays,
-    this.notes,
-    this.status = OfferStatus.pending,
-    required this.createdAt,
-    this.quantity = 0,
-    this.productType = '',
-  });
+  const factory OfferEntity({
+    required String id,
+    required String requestId,
+    required String factoryId,
+    required String factoryName,
+    @Default(0.0) double factoryRating,
+    required double pricePerPiece,
+    required int leadTimeDays,
+    String? notes,
+    @Default(OfferStatus.pending) OfferStatus status,
+    required DateTime createdAt,
+    @Default(0) int quantity,
+    @Default('') String productType,
+  }) = _OfferEntity;
 
   double get totalCost => pricePerPiece * quantity;
 

@@ -15,6 +15,7 @@ abstract class RequestsState extends Equatable {
 }
 
 class RequestsInitial extends RequestsState {}
+
 class RequestsLoading extends RequestsState {}
 
 class RequestsLoaded extends RequestsState {
@@ -65,7 +66,9 @@ class RequestsCubit extends Cubit<RequestsState> {
     final result = await getRequestsUseCase(brandId: userId);
     result.fold(
       (error) => emit(RequestsError(error)),
-      (all) => emit(RequestsLoaded(_filterByTab(all, _activeTab), activeTab: _activeTab)),
+      (all) => emit(
+        RequestsLoaded(_filterByTab(all, _activeTab), activeTab: _activeTab),
+      ),
     );
   }
 
@@ -87,6 +90,7 @@ class RequestsCubit extends Cubit<RequestsState> {
     required String productType,
     required int quantity,
     required String material,
+    RequestQuality quality = RequestQuality.medium,
     double? targetPrice,
     String? notes,
     String? referenceImageUrl,
@@ -105,6 +109,7 @@ class RequestsCubit extends Cubit<RequestsState> {
       productType: productType,
       quantity: quantity,
       material: material,
+      quality: quality,
       targetPricePerPiece: targetPrice,
       notes: notes,
       referenceImageUrl: referenceImageUrl,

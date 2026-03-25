@@ -5,7 +5,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../features/auth/presentation/pages/splash_page.dart';
 import '../../features/auth/presentation/pages/onboarding_page.dart';
 import '../../features/auth/presentation/pages/role_selection_page.dart';
-import '../../features/auth/presentation/pages/phone_auth_page.dart';
+import '../../features/auth/presentation/pages/email_auth_page.dart';
 import '../../features/auth/presentation/pages/profile_page.dart';
 import '../../features/brand/presentation/pages/brand_shell_page.dart';
 import '../../features/brand/presentation/pages/brand_home_page.dart';
@@ -23,6 +23,12 @@ import '../../features/factory/presentation/pages/factory_requests_page.dart';
 import '../../features/factory/presentation/pages/request_detail_page.dart';
 import '../../features/factory/presentation/pages/send_offer_page.dart';
 import '../../features/factory/presentation/pages/factory_offers_page.dart';
+import '../../features/factory/presentation/pages/factory_profile_setup_page.dart';
+
+import '../../features/auth/presentation/pages/edit_profile_page.dart';
+import '../../features/auth/presentation/pages/notifications_settings_page.dart';
+import '../../features/auth/presentation/pages/privacy_security_page.dart';
+import '../../features/auth/presentation/pages/help_support_page.dart';
 
 abstract class AppRoutes {
   static const String splash = '/';
@@ -46,15 +52,21 @@ abstract class AppRoutes {
 
   // Factory
   static const String factoryShell = '/factory';
+  static const String factoryProfileSetup = '/factory/setup';
   static const String factoryDashboard = '/factory/dashboard';
   static const String factoryRequests = '/factory/requests';
   static const String requestDetail = '/factory/requests/:requestId';
   static const String sendOffer = '/factory/requests/:requestId/send-offer';
   static const String factoryOffers = '/factory/offers';
 
+  // Profile Settings
+  static const String editProfile = '/profile/edit';
+  static const String notifications = '/profile/notifications';
+  static const String privacySecurity = '/profile/privacy';
+  static const String helpSupport = '/profile/help';
+
   // Keep old names as aliases for backward compatibility
   static const String phoneAuth = emailAuth;
-  static const String otp = '/otp'; // No longer used
 }
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -105,6 +117,28 @@ final GoRouter appRouter = GoRouter(
         final role = state.uri.queryParameters['role'] ?? 'brand';
         return LoginPage(role: role);
       },
+    ),
+    GoRoute(
+      path: AppRoutes.factoryProfileSetup,
+      builder: (context, state) => const FactoryProfileSetupPage(),
+    ),
+
+    // ── Profile Settings Routes ────────────────────
+    GoRoute(
+      path: AppRoutes.editProfile,
+      builder: (context, state) => const EditProfilePage(),
+    ),
+    GoRoute(
+      path: AppRoutes.notifications,
+      builder: (context, state) => const NotificationsSettingsPage(),
+    ),
+    GoRoute(
+      path: AppRoutes.privacySecurity,
+      builder: (context, state) => const PrivacySecurityPage(),
+    ),
+    GoRoute(
+      path: AppRoutes.helpSupport,
+      builder: (context, state) => const HelpSupportPage(),
     ),
 
     // ── Brand Shell (Bottom Nav) ───────────────────

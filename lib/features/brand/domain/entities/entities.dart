@@ -1,36 +1,29 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'entities.freezed.dart';
+
 // ════════════════════════════════════
 // FACTORY ENTITY
 // ════════════════════════════════════
-class FactoryEntity {
-  final String id;
-  final String ownerId;
-  final String name;
-  final String city;
-  final List<String> specialties;
-  final int minQuantity;
-  final int leadTimeDays;
-  final double rating;
-  final int reviewCount;
-  final String? coverImageUrl;
-  final List<String> portfolioImages;
-  final bool isFastResponder;
-  final DateTime createdAt;
+@freezed
+abstract class FactoryEntity with _$FactoryEntity {
+  const FactoryEntity._();
 
-  const FactoryEntity({
-    required this.id,
-    required this.ownerId,
-    required this.name,
-    required this.city,
-    required this.specialties,
-    required this.minQuantity,
-    required this.leadTimeDays,
-    this.rating = 0.0,
-    this.reviewCount = 0,
-    this.coverImageUrl,
-    this.portfolioImages = const [],
-    this.isFastResponder = false,
-    required this.createdAt,
-  });
+  const factory FactoryEntity({
+    required String id,
+    required String ownerId,
+    required String name,
+    required String city,
+    required List<String> specialties,
+    required int minQuantity,
+    required int leadTimeDays,
+    @Default(0.0) double rating,
+    @Default(0) int reviewCount,
+    String? coverImageUrl,
+    @Default([]) List<String> portfolioImages,
+    @Default(false) bool isFastResponder,
+    required DateTime createdAt,
+  }) = _FactoryEntity;
 
   String get ratingFormatted => rating.toStringAsFixed(1);
   String get specialtiesStr => specialties.join(' · ');
@@ -41,38 +34,29 @@ class FactoryEntity {
 // ════════════════════════════════════
 enum RequestStatus { active, completed, cancelled }
 
-class RequestEntity {
-  final String id;
-  final String brandId;
-  final String brandName;
-  final String? brandAvatarInitial;
-  final String productType;
-  final int quantity;
-  final String material;
-  final double? targetPricePerPiece;
-  final String? notes;
-  final String? referenceImageUrl;
-  final RequestStatus status;
-  final int offerCount;
-  final DateTime createdAt;
-  final String? requestNumber;
+enum RequestQuality { low, medium, high }
 
-  const RequestEntity({
-    required this.id,
-    required this.brandId,
-    required this.brandName,
-    this.brandAvatarInitial,
-    required this.productType,
-    required this.quantity,
-    this.material = 'مش محدد',
-    this.targetPricePerPiece,
-    this.notes,
-    this.referenceImageUrl,
-    this.status = RequestStatus.active,
-    this.offerCount = 0,
-    required this.createdAt,
-    this.requestNumber,
-  });
+@freezed
+abstract class RequestEntity with _$RequestEntity {
+  const RequestEntity._();
+
+  const factory RequestEntity({
+    required String id,
+    required String brandId,
+    required String brandName,
+    String? brandAvatarInitial,
+    required String productType,
+    required int quantity,
+    @Default('مش محدد') String material,
+    @Default(RequestQuality.medium) RequestQuality quality,
+    double? targetPricePerPiece,
+    String? notes,
+    String? referenceImageUrl,
+    @Default(RequestStatus.active) RequestStatus status,
+    @Default(0) int offerCount,
+    required DateTime createdAt,
+    String? requestNumber,
+  }) = _RequestEntity;
 
   String get statusLabel {
     switch (status) {
@@ -82,6 +66,17 @@ class RequestEntity {
         return 'مكتمل';
       case RequestStatus.cancelled:
         return 'ملغي';
+    }
+  }
+
+  String get qualityLabel {
+    switch (quality) {
+      case RequestQuality.high:
+        return 'جودة عالية 🌟';
+      case RequestQuality.medium:
+        return 'جودة متوسطة ⭐';
+      case RequestQuality.low:
+        return 'جودة اقتصادية 📉';
     }
   }
 
@@ -99,4 +94,3 @@ class RequestEntity {
     return '⚡ $offerCount مصانع بعتوا عروض';
   }
 }
-

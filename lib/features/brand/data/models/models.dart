@@ -1,156 +1,92 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../domain/entities/entities.dart';
+
+part 'models.freezed.dart';
+part 'models.g.dart';
 
 // ════════════════════════════════════
 // FACTORY MODEL
 // ════════════════════════════════════
-class FactoryModel {
-  final String id;
-  final String ownerId;
-  final String name;
-  final String city;
-  final List<String> specialties;
-  final int minQuantity;
-  final int leadTimeDays;
-  final double rating;
-  final int reviewCount;
-  final String? coverImageUrl;
-  final List<String> portfolioImages;
-  final bool isFastResponder;
-  final DateTime createdAt;
+@freezed
+abstract class FactoryModel with _$FactoryModel {
+  const FactoryModel._();
 
-  const FactoryModel({
-    required this.id,
-    required this.ownerId,
-    required this.name,
-    required this.city,
-    required this.specialties,
-    required this.minQuantity,
-    required this.leadTimeDays,
-    this.rating = 0.0,
-    this.reviewCount = 0,
-    this.coverImageUrl,
-    this.portfolioImages = const [],
-    this.isFastResponder = false,
-    required this.createdAt,
-  });
+  const factory FactoryModel({
+    required String id,
+    @JsonKey(name: 'owner_id') required String ownerId,
+    required String name,
+    required String city,
+    @Default([]) List<String> specialties,
+    @JsonKey(name: 'min_quantity') @Default(100) int minQuantity,
+    @JsonKey(name: 'lead_time_days') @Default(21) int leadTimeDays,
+    @Default(0.0) double rating,
+    @JsonKey(name: 'review_count') @Default(0) int reviewCount,
+    @JsonKey(name: 'cover_image_url') String? coverImageUrl,
+    @JsonKey(name: 'portfolio_images')
+    @Default([])
+    List<String> portfolioImages,
+    @JsonKey(name: 'is_fast_responder') @Default(false) bool isFastResponder,
+    @JsonKey(name: 'created_at') required DateTime createdAt,
+  }) = _FactoryModel;
 
-  factory FactoryModel.fromJson(Map<String, dynamic> j) => FactoryModel(
-        id: j['id'] as String,
-        ownerId: j['owner_id'] as String,
-        name: j['name'] as String,
-        city: j['city'] as String,
-        specialties: List<String>.from(j['specialties'] ?? []),
-        minQuantity: (j['min_quantity'] as num?)?.toInt() ?? 100,
-        leadTimeDays: (j['lead_time_days'] as num?)?.toInt() ?? 21,
-        rating: (j['rating'] as num?)?.toDouble() ?? 0.0,
-        reviewCount: (j['review_count'] as num?)?.toInt() ?? 0,
-        coverImageUrl: j['cover_image_url'] as String?,
-        portfolioImages: List<String>.from(j['portfolio_images'] ?? []),
-        isFastResponder: j['is_fast_responder'] as bool? ?? false,
-        createdAt: DateTime.parse(
-            j['created_at'] as String? ?? DateTime.now().toIso8601String()),
-      );
-
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'owner_id': ownerId,
-        'name': name,
-        'city': city,
-        'specialties': specialties,
-        'min_quantity': minQuantity,
-        'lead_time_days': leadTimeDays,
-        'rating': rating,
-        'review_count': reviewCount,
-        'cover_image_url': coverImageUrl,
-        'portfolio_images': portfolioImages,
-        'is_fast_responder': isFastResponder,
-      };
+  factory FactoryModel.fromJson(Map<String, dynamic> json) =>
+      _$FactoryModelFromJson(json);
 
   FactoryEntity toEntity() => FactoryEntity(
-        id: id,
-        ownerId: ownerId,
-        name: name,
-        city: city,
-        specialties: specialties,
-        minQuantity: minQuantity,
-        leadTimeDays: leadTimeDays,
-        rating: rating,
-        reviewCount: reviewCount,
-        coverImageUrl: coverImageUrl,
-        portfolioImages: portfolioImages,
-        isFastResponder: isFastResponder,
-        createdAt: createdAt,
-      );
+    id: id,
+    ownerId: ownerId,
+    name: name,
+    city: city,
+    specialties: specialties,
+    minQuantity: minQuantity,
+    leadTimeDays: leadTimeDays,
+    rating: rating,
+    reviewCount: reviewCount,
+    coverImageUrl: coverImageUrl,
+    portfolioImages: portfolioImages,
+    isFastResponder: isFastResponder,
+    createdAt: createdAt,
+  );
 }
 
 // ════════════════════════════════════
 // REQUEST MODEL
 // ════════════════════════════════════
-class RequestModel {
-  final String id;
-  final String brandId;
-  final String brandName;
-  final String? brandAvatarInitial;
-  final String productType;
-  final int quantity;
-  final String material;
-  final double? targetPricePerPiece;
-  final String? notes;
-  final String? referenceImageUrl;
-  final String status;
-  final int offerCount;
-  final DateTime createdAt;
-  final String? requestNumber;
+@freezed
+abstract class RequestModel with _$RequestModel {
+  const RequestModel._();
 
-  const RequestModel({
-    required this.id,
-    required this.brandId,
-    required this.brandName,
-    this.brandAvatarInitial,
-    required this.productType,
-    required this.quantity,
-    this.material = 'مش محدد',
-    this.targetPricePerPiece,
-    this.notes,
-    this.referenceImageUrl,
-    this.status = 'active',
-    this.offerCount = 0,
-    required this.createdAt,
-    this.requestNumber,
-  });
+  const factory RequestModel({
+    required String id,
+    @JsonKey(name: 'brand_id') required String brandId,
+    @JsonKey(name: 'brand_name') @Default('براند') String brandName,
+    @JsonKey(name: 'brand_avatar_initial') String? brandAvatarInitial,
+    @JsonKey(name: 'product_type') required String productType,
+    required int quantity,
+    @Default('مش محدد') String material,
+    @Default('medium') String quality,
+    @JsonKey(name: 'target_price_per_piece') double? targetPricePerPiece,
+    String? notes,
+    @JsonKey(name: 'reference_image_url') String? referenceImageUrl,
+    @Default('active') String status,
+    @JsonKey(name: 'offer_count') @Default(0) int offerCount,
+    @JsonKey(name: 'created_at') required DateTime createdAt,
+    @JsonKey(name: 'request_number') String? requestNumber,
+  }) = _RequestModel;
 
-  factory RequestModel.fromJson(Map<String, dynamic> j) => RequestModel(
-        id: j['id'] as String,
-        brandId: j['brand_id'] as String,
-        brandName: j['brand_name'] as String? ?? 'براند',
-        brandAvatarInitial: j['brand_avatar_initial'] as String?,
-        productType: j['product_type'] as String,
-        quantity: (j['quantity'] as num).toInt(),
-        material: j['material'] as String? ?? 'مش محدد',
-        targetPricePerPiece: (j['target_price_per_piece'] as num?)?.toDouble(),
-        notes: j['notes'] as String?,
-        referenceImageUrl: j['reference_image_url'] as String?,
-        status: j['status'] as String? ?? 'active',
-        offerCount: (j['offer_count'] as num?)?.toInt() ?? 0,
-        createdAt: DateTime.parse(
-            j['created_at'] as String? ?? DateTime.now().toIso8601String()),
-        requestNumber: j['request_number'] as String?,
-      );
+  factory RequestModel.fromJson(Map<String, dynamic> json) =>
+      _$RequestModelFromJson(json);
 
-  Map<String, dynamic> toInsertJson() => {
-        'brand_id': brandId,
-        'brand_name': brandName,
-        'brand_avatar_initial': brandAvatarInitial,
-        'product_type': productType,
-        'quantity': quantity,
-        'material': material,
-        if (targetPricePerPiece != null)
-          'target_price_per_piece': targetPricePerPiece,
-        if (notes != null) 'notes': notes,
-        if (referenceImageUrl != null)
-          'reference_image_url': referenceImageUrl,
-        'status': status,
-      };
+  Map<String, dynamic> toInsertJson() {
+    final json = toJson();
+    // remove purely read-only or server-generated fields that aren't needed on insert
+    json.remove('id');
+    json.remove('created_at');
+    json.remove('offer_count');
+    json.remove('request_number');
+    // Remove nulls so we don't accidentally update optional fields with null inserts
+    return json..removeWhere((key, value) => value == null);
+  }
 
   RequestEntity toEntity() {
     RequestStatus entityStatus;
@@ -164,6 +100,19 @@ class RequestModel {
       default:
         entityStatus = RequestStatus.active;
     }
+
+    RequestQuality entityQuality;
+    switch (quality) {
+      case 'low':
+        entityQuality = RequestQuality.low;
+        break;
+      case 'high':
+        entityQuality = RequestQuality.high;
+        break;
+      default:
+        entityQuality = RequestQuality.medium;
+    }
+
     return RequestEntity(
       id: id,
       brandId: brandId,
@@ -172,6 +121,7 @@ class RequestModel {
       productType: productType,
       quantity: quantity,
       material: material,
+      quality: entityQuality,
       targetPricePerPiece: targetPricePerPiece,
       notes: notes,
       referenceImageUrl: referenceImageUrl,

@@ -7,6 +7,8 @@ import '../../../../core/constants/app_text_styles.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/widgets/app_widgets.dart';
+import '../../../../core/utils/app_responsive.dart';
+import '../../domain/entities/entities.dart';
 import '../cubit/requests_cubit.dart';
 
 class CreateRequestPage extends StatefulWidget {
@@ -24,6 +26,7 @@ class _CreateRequestPageState extends State<CreateRequestPage> {
   String? _selectedType;
   int _quantity = 500;
   String _selectedMaterial = 'مش محدد';
+  RequestQuality _selectedQuality = RequestQuality.medium;
 
   // Step 2
   final _priceCtrl = TextEditingController();
@@ -67,16 +70,16 @@ class _CreateRequestPageState extends State<CreateRequestPage> {
               onPressed: () => context.pop(),
             ),
           ),
-          body: Column(
-            children: [
-              // ── Step indicator ──────────────────
-              _StepBar(currentStep: _step, totalSteps: 2),
+          body: ResponsiveCenter(
+            child: Column(
+              children: [
+                // ── Step indicator ──────────────────
+                _StepBar(currentStep: _step, totalSteps: 2),
 
-              // ── Body ────────────────────────────
-              Expanded(
-                child: _step == 1 ? _buildStep1() : _buildStep2(),
-              ),
-            ],
+                // ── Body ────────────────────────────
+                Expanded(child: _step == 1 ? _buildStep1() : _buildStep2()),
+              ],
+            ),
           ),
         ),
       ),
@@ -117,7 +120,9 @@ class _CreateRequestPageState extends State<CreateRequestPage> {
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 150),
                   decoration: BoxDecoration(
-                    color: isSelected ? AppColors.primaryPale : AppColors.background,
+                    color: isSelected
+                        ? AppColors.primaryPale
+                        : AppColors.background,
                     border: Border.all(
                       color: isSelected ? AppColors.primary : AppColors.border,
                       width: isSelected ? 2 : 1.5,
@@ -128,20 +133,25 @@ class _CreateRequestPageState extends State<CreateRequestPage> {
                             BoxShadow(
                               color: AppColors.primary.withValues(alpha: 0.15),
                               blurRadius: 8,
-                            )
+                            ),
                           ]
                         : null,
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(type['emoji']!, style: const TextStyle(fontSize: 26)),
+                      Text(
+                        type['emoji']!,
+                        style: const TextStyle(fontSize: 26),
+                      ),
                       const SizedBox(height: 4),
                       Text(
                         label,
                         style: AppTextStyles.caption.copyWith(
                           fontWeight: FontWeight.w700,
-                          color: isSelected ? AppColors.primary : AppColors.textPrimary,
+                          color: isSelected
+                              ? AppColors.primary
+                              : AppColors.textPrimary,
                         ),
                       ),
                     ],
@@ -198,16 +208,49 @@ class _CreateRequestPageState extends State<CreateRequestPage> {
           ),
           const SizedBox(height: 20),
 
+          // Quality Segment
+          Text('مستوى الجودة المطلوب', style: AppTextStyles.label),
+          const SizedBox(height: 8),
+          SegmentedButton<RequestQuality>(
+            segments: const [
+              ButtonSegment(value: RequestQuality.low, label: Text('منخفضة')),
+              ButtonSegment(
+                value: RequestQuality.medium,
+                label: Text('متوسطة'),
+              ),
+              ButtonSegment(value: RequestQuality.high, label: Text('عالية')),
+            ],
+            selected: {_selectedQuality},
+            onSelectionChanged: (Set<RequestQuality> newSelection) {
+              setState(() {
+                _selectedQuality = newSelection.first;
+              });
+            },
+            style: ButtonStyle(
+              backgroundColor: WidgetStateProperty.resolveWith<Color>((
+                Set<WidgetState> states,
+              ) {
+                if (states.contains(WidgetState.selected)) {
+                  return AppColors.primaryPale; // selected
+                }
+                return AppColors.background; // normal
+              }),
+              side: WidgetStateProperty.resolveWith<BorderSide>((
+                Set<WidgetState> states,
+              ) {
+                if (states.contains(WidgetState.selected)) {
+                  return const BorderSide(color: AppColors.primary, width: 1.5);
+                }
+                return const BorderSide(color: AppColors.border, width: 1);
+              }),
+            ),
+          ),
+          const SizedBox(height: 20),
+
           // Material (P2 fix)
-          Text(
-            'الخامة',
-            style: AppTextStyles.label,
-          ),
+          Text('الخامة', style: AppTextStyles.label),
           const SizedBox(height: 4),
-          Text(
-            'اختياري — يساعد في دقة العروض',
-            style: AppTextStyles.caption,
-          ),
+          Text('اختياري — يساعد في دقة العروض', style: AppTextStyles.caption),
           const SizedBox(height: 8),
           Wrap(
             spacing: 8,
@@ -268,7 +311,9 @@ class _CreateRequestPageState extends State<CreateRequestPage> {
                   Expanded(
                     child: Text(
                       _marketHint,
-                      style: AppTextStyles.caption.copyWith(color: AppColors.primary),
+                      style: AppTextStyles.caption.copyWith(
+                        color: AppColors.primary,
+                      ),
                     ),
                   ),
                 ],
@@ -287,11 +332,18 @@ class _CreateRequestPageState extends State<CreateRequestPage> {
                 child: AppTextField(
                   hint: 'مثال: 45',
                   controller: _priceCtrl,
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  keyboardType: const TextInputType.numberWithOptions(
+                    decimal: true,
+                  ),
                 ),
               ),
               const SizedBox(width: 8),
-              Text('جنيه / قطعة', style: AppTextStyles.body.copyWith(color: AppColors.textSecondary)),
+              Text(
+                'جنيه / قطعة',
+                style: AppTextStyles.body.copyWith(
+                  color: AppColors.textSecondary,
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 14),
@@ -360,12 +412,15 @@ class _CreateRequestPageState extends State<CreateRequestPage> {
 
   Future<void> _publish(BuildContext context) async {
     final price = double.tryParse(_priceCtrl.text);
-    final notes = _notesCtrl.text.trim().isNotEmpty ? _notesCtrl.text.trim() : null;
+    final notes = _notesCtrl.text.trim().isNotEmpty
+        ? _notesCtrl.text.trim()
+        : null;
 
     await sl<RequestsCubit>().createRequest(
       productType: _selectedType!,
       quantity: _quantity,
       material: _selectedMaterial,
+      quality: _selectedQuality,
       targetPrice: price,
       notes: notes,
     );
@@ -396,7 +451,9 @@ class _StepBar extends StatelessWidget {
               width: 26,
               height: 26,
               decoration: BoxDecoration(
-                color: (isDone || isActive) ? AppColors.primary : AppColors.border,
+                color: (isDone || isActive)
+                    ? AppColors.primary
+                    : AppColors.border,
                 shape: BoxShape.circle,
                 boxShadow: isActive
                     ? [
@@ -404,17 +461,23 @@ class _StepBar extends StatelessWidget {
                           color: AppColors.primary.withValues(alpha: 0.3),
                           blurRadius: 8,
                           spreadRadius: 2,
-                        )
+                        ),
                       ]
                     : null,
               ),
               child: Center(
                 child: isDone
-                    ? const Icon(Icons.check_rounded, color: Colors.white, size: 14)
+                    ? const Icon(
+                        Icons.check_rounded,
+                        color: Colors.white,
+                        size: 14,
+                      )
                     : Text(
                         '$stepNum',
                         style: TextStyle(
-                          color: (isActive) ? Colors.white : AppColors.textDisabled,
+                          color: (isActive)
+                              ? Colors.white
+                              : AppColors.textDisabled,
                           fontSize: 11,
                           fontWeight: FontWeight.w700,
                         ),
@@ -426,7 +489,9 @@ class _StepBar extends StatelessWidget {
             return Expanded(
               child: Container(
                 height: 2,
-                color: lineStep < currentStep ? AppColors.primary : AppColors.border,
+                color: lineStep < currentStep
+                    ? AppColors.primary
+                    : AppColors.border,
               ),
             );
           }

@@ -9,6 +9,7 @@ import '../../../../core/di/injection.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/services/user_service.dart';
 import '../../../../core/widgets/app_widgets.dart';
+import '../../../../core/utils/app_responsive.dart';
 import '../cubit/factories_cubit.dart';
 import '../../domain/entities/entities.dart';
 
@@ -48,122 +49,146 @@ class _BrandHomePageState extends State<BrandHomePage> {
       value: sl<FactoriesCubit>(),
       child: Scaffold(
         backgroundColor: AppColors.background,
-        body: RefreshIndicator(
-          onRefresh: () async {
-            await sl<UserService>().getProfile(forceRefresh: true);
-            unawaited(sl<FactoriesCubit>().loadFactories());
-            _loadUser();
-          },
-          color: AppColors.primary,
-          child: CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(
-                child: Container(
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [Color(0xFF0D2260), AppColors.primary, AppColors.primaryLight],
+        body: ResponsiveCenter(
+          maxWidth: 800, // wider for desktop view
+          child: RefreshIndicator(
+            onRefresh: () async {
+              await sl<UserService>().getProfile(forceRefresh: true);
+              unawaited(sl<FactoriesCubit>().loadFactories());
+              _loadUser();
+            },
+            color: AppColors.primary,
+            child: CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          Color(0xFF0D2260),
+                          AppColors.primary,
+                          AppColors.primaryLight,
+                        ],
+                      ),
                     ),
-                  ),
-                  padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).padding.top + 12,
-                    left: 16, right: 16, bottom: 20,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Qassa ✨',
-                            style: AppTextStyles.h4.copyWith(color: Colors.white),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            _firstName.isEmpty ? 'أهلاً 👋' : 'أهلاً، $_firstName 👋',
-                            style: AppTextStyles.h2.copyWith(
-                              color: Colors.white, fontWeight: FontWeight.w900,
-                            ),
-                          ),
-                          if (_brandNameVal.isNotEmpty)
+                    padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).padding.top + 12,
+                      left: 16,
+                      right: 16,
+                      bottom: 20,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
                             Text(
-                              'براند: $_brandNameVal',
-                              style: AppTextStyles.caption.copyWith(
-                                color: Colors.white.withValues(alpha:0.75),
+                              'Qassa ✨',
+                              style: AppTextStyles.h4.copyWith(
+                                color: Colors.white,
                               ),
                             ),
-                        ],
-                      ),
-                      GestureDetector(
-                        onTap: () {},
-                        child: Container(
-                          width: 40, height: 40,
-                          decoration: BoxDecoration(
-                            color: Colors.white.withValues(alpha:0.15),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: const Center(
-                            child: Text('🔔', style: TextStyle(fontSize: 20)),
+                            const SizedBox(height: 4),
+                            Text(
+                              _firstName.isEmpty
+                                  ? 'أهلاً 👋'
+                                  : 'أهلاً، $_firstName 👋',
+                              style: AppTextStyles.h2.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                            if (_brandNameVal.isNotEmpty)
+                              Text(
+                                'براند: $_brandNameVal',
+                                style: AppTextStyles.caption.copyWith(
+                                  color: Colors.white.withValues(alpha: 0.75),
+                                ),
+                              ),
+                          ],
+                        ),
+                        GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            width: 40,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              color: Colors.white.withValues(alpha: 0.15),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: const Center(
+                              child: Text('🔔', style: TextStyle(fontSize: 20)),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              SliverPadding(
-                padding: const EdgeInsets.all(AppConstants.spacingMd),
-                sliver: SliverList(
-                  delegate: SliverChildListDelegate([
-                    // CTA banner
-                    AppCard(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('🚀 ابدأ أول طلب تصنيع', style: AppTextStyles.h4),
-                          const SizedBox(height: 4),
-                          Text(
-                            'أرسل طلبك في أقل من 60 ثانية واستقبل عروض من مصانع متخصصة',
-                            style: AppTextStyles.bodySm,
-                          ),
-                          const SizedBox(height: 12),
-                          AppButton(
-                            label: '+ إنشاء طلب',
-                            onPressed: () => context.push(AppRoutes.createRequest),
-                            height: AppConstants.buttonHeightSm,
-                          ),
-                        ],
+                SliverPadding(
+                  padding: const EdgeInsets.all(AppConstants.spacingMd),
+                  sliver: SliverList(
+                    delegate: SliverChildListDelegate([
+                      // CTA banner
+                      AppCard(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '🚀 ابدأ أول طلب تصنيع',
+                              style: AppTextStyles.h4,
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              'أرسل طلبك في أقل من 60 ثانية واستقبل عروض من مصانع متخصصة',
+                              style: AppTextStyles.bodySm,
+                            ),
+                            const SizedBox(height: 12),
+                            AppButton(
+                              label: '+ إنشاء طلب',
+                              onPressed: () =>
+                                  context.push(AppRoutes.createRequest),
+                              height: AppConstants.buttonHeightSm,
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 16),
-                    const SectionTitle(title: 'مصانع موصى بيها 🔥'),
-                    BlocBuilder<FactoriesCubit, FactoriesState>(
-                      builder: (context, state) {
-                        if (state is FactoriesLoading) {
-                          return const SizedBox(height: 100, child: AppLoading());
-                        }
-                        if (state is FactoriesLoaded) {
-                          return Column(
-                            children: state.factories
-                                .take(3)
-                                .map((f) => _FactoryCard(
+                      const SizedBox(height: 16),
+                      const SectionTitle(title: 'مصانع موصى بيها 🔥'),
+                      BlocBuilder<FactoriesCubit, FactoriesState>(
+                        builder: (context, state) {
+                          if (state is FactoriesLoading) {
+                            return const SizedBox(
+                              height: 100,
+                              child: AppLoading(),
+                            );
+                          }
+                          if (state is FactoriesLoaded) {
+                            return Column(
+                              children: state.factories
+                                  .take(3)
+                                  .map(
+                                    (f) => _FactoryCard(
                                       factory: f,
                                       onTap: () => context.push(
                                         '${AppRoutes.factoriesList}/${f.id}',
                                       ),
-                                    ))
-                                .toList(),
-                          );
-                        }
-                        return const SizedBox();
-                      },
-                    ),
-                  ]),
+                                    ),
+                                  )
+                                  .toList(),
+                            );
+                          }
+                          return const SizedBox();
+                        },
+                      ),
+                    ]),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -185,14 +210,17 @@ class _FactoryCard extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              width: 48, height: 48,
+              width: 48,
+              height: 48,
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
                   colors: [AppColors.primary, AppColors.primaryLight],
                 ),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: const Center(child: Text('🏭', style: TextStyle(fontSize: 22))),
+              child: const Center(
+                child: Text('🏭', style: TextStyle(fontSize: 22)),
+              ),
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -209,8 +237,10 @@ class _FactoryCard extends StatelessWidget {
                           color: const Color(0xFFF59E0B),
                         ),
                       ),
-                      Text(' · ${factory.reviewCount} تقييم',
-                          style: AppTextStyles.caption),
+                      Text(
+                        ' · ${factory.reviewCount} تقييم',
+                        style: AppTextStyles.caption,
+                      ),
                     ],
                   ),
                 ],
@@ -225,7 +255,8 @@ class _FactoryCard extends StatelessWidget {
               child: Text(
                 'من ${factory.minQuantity} ق',
                 style: AppTextStyles.caption.copyWith(
-                  color: AppColors.primary, fontWeight: FontWeight.w700,
+                  color: AppColors.primary,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
             ),

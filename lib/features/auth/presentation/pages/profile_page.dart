@@ -8,6 +8,7 @@ import '../../../../core/di/injection.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/services/user_service.dart';
 import '../../../../core/widgets/app_widgets.dart';
+import '../../../../core/utils/app_responsive.dart';
 import '../cubit/auth_cubit.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -43,7 +44,7 @@ class _ProfileBodyState extends State<_ProfileBody> {
 
   Future<void> _loadProfile() async {
     final svc = sl<UserService>();
-    final profile = await svc.getProfile();
+    final profile = await svc.getProfile(forceRefresh: true);
     if (!mounted) return;
 
     setState(() {
@@ -96,110 +97,114 @@ class _ProfileBodyState extends State<_ProfileBody> {
       child: Scaffold(
         backgroundColor: AppColors.background,
         appBar: AppBar(title: const Text('حسابي'), centerTitle: true),
-        body: _loading
-            ? const Center(child: CircularProgressIndicator())
-            : SingleChildScrollView(
-                padding: const EdgeInsets.all(AppConstants.spacingMd),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 20),
-                    // Profile Header
-                    Center(
-                      child: Column(
-                        children: [
-                          Container(
-                            width: 100,
-                            height: 100,
-                            decoration: BoxDecoration(
-                              gradient: const LinearGradient(
-                                colors: [
-                                  AppColors.primary,
-                                  AppColors.primaryLight,
+        body: ResponsiveCenter(
+          child: _loading
+              ? const Center(child: CircularProgressIndicator())
+              : SingleChildScrollView(
+                  padding: const EdgeInsets.all(AppConstants.spacingMd),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 20),
+                      // Profile Header
+                      Center(
+                        child: Column(
+                          children: [
+                            Container(
+                              width: 100,
+                              height: 100,
+                              decoration: BoxDecoration(
+                                gradient: const LinearGradient(
+                                  colors: [
+                                    AppColors.primary,
+                                    AppColors.primaryLight,
+                                  ],
+                                ),
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: AppColors.primary.withValues(
+                                      alpha: 0.2,
+                                    ),
+                                    blurRadius: 15,
+                                    offset: const Offset(0, 5),
+                                  ),
                                 ],
                               ),
-                              shape: BoxShape.circle,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: AppColors.primary.withValues(
-                                    alpha: 0.2,
+                              child: Center(
+                                child: Text(
+                                  _avatar,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 40,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  blurRadius: 15,
-                                  offset: const Offset(0, 5),
-                                ),
-                              ],
-                            ),
-                            child: Center(
-                              child: Text(
-                                _avatar,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 40,
-                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
-                          ),
-                          const SizedBox(height: 16),
-                          Text(_name, style: AppTextStyles.h3),
-                          Text(
-                            _email,
-                            style: AppTextStyles.body.copyWith(
-                              color: AppColors.textSecondary,
+                            const SizedBox(height: 16),
+                            Text(_name, style: AppTextStyles.h3),
+                            Text(
+                              _email,
+                              style: AppTextStyles.body.copyWith(
+                                color: AppColors.textSecondary,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 40),
+                      const SizedBox(height: 40),
 
-                    // Settings List
-                    AppCard(
-                      child: Column(
-                        children: [
-                          _ProfileMenuItem(
-                            icon: Icons.person_outline_rounded,
-                            title: 'تعديل الملف الشخصي',
-                            onTap: () {},
-                          ),
-                          const Divider(),
-                          _ProfileMenuItem(
-                            icon: Icons.notifications_none_rounded,
-                            title: 'التنبيهات',
-                            onTap: () {},
-                          ),
-                          const Divider(),
-                          _ProfileMenuItem(
-                            icon: Icons.security_rounded,
-                            title: 'الخصوصية والأمان',
-                            onTap: () {},
-                          ),
-                          const Divider(),
-                          _ProfileMenuItem(
-                            icon: Icons.help_outline_rounded,
-                            title: 'المساعدة والدعم',
-                            onTap: () {},
-                          ),
-                          const Divider(),
-                          _ProfileMenuItem(
-                            icon: Icons.logout_rounded,
-                            title: 'تسجيل الخروج',
-                            titleColor: Colors.red,
-                            iconColor: Colors.red,
-                            onTap: _logout,
-                          ),
-                        ],
+                      // Settings List
+                      AppCard(
+                        child: Column(
+                          children: [
+                            _ProfileMenuItem(
+                              icon: Icons.person_outline_rounded,
+                              title: 'تعديل الملف الشخصي',
+                              onTap: () => context.push(AppRoutes.editProfile),
+                            ),
+                            const Divider(),
+                            _ProfileMenuItem(
+                              icon: Icons.notifications_none_rounded,
+                              title: 'التنبيهات',
+                              onTap: () =>
+                                  context.push(AppRoutes.notifications),
+                            ),
+                            const Divider(),
+                            _ProfileMenuItem(
+                              icon: Icons.security_rounded,
+                              title: 'الخصوصية والأمان',
+                              onTap: () =>
+                                  context.push(AppRoutes.privacySecurity),
+                            ),
+                            const Divider(),
+                            _ProfileMenuItem(
+                              icon: Icons.help_outline_rounded,
+                              title: 'المساعدة والدعم',
+                              onTap: () => context.push(AppRoutes.helpSupport),
+                            ),
+                            const Divider(),
+                            _ProfileMenuItem(
+                              icon: Icons.logout_rounded,
+                              title: 'تسجيل الخروج',
+                              titleColor: Colors.red,
+                              iconColor: Colors.red,
+                              onTap: _logout,
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 24),
-                    Text(
-                      'v1.0.0',
-                      style: AppTextStyles.caption.copyWith(
-                        color: AppColors.textDisabled,
+                      const SizedBox(height: 24),
+                      Text(
+                        'v1.0.0',
+                        style: AppTextStyles.caption.copyWith(
+                          color: AppColors.textDisabled,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
+        ),
       ),
     );
   }

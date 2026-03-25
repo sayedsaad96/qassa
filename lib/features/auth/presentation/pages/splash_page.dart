@@ -28,12 +28,14 @@ class _SplashPageState extends State<SplashPage>
       vsync: this,
       duration: const Duration(milliseconds: 800),
     );
-    _fadeAnim = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
-    );
-    _scaleAnim = Tween<double>(begin: 0.8, end: 1).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.elasticOut),
-    );
+    _fadeAnim = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
+    _scaleAnim = Tween<double>(
+      begin: 0.8,
+      end: 1,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.elasticOut));
     _controller.forward();
     _navigate();
   }
@@ -45,7 +47,11 @@ class _SplashPageState extends State<SplashPage>
     final svc = sl<UserService>();
     if (svc.isLoggedIn) {
       try {
-        final userRole = await svc.role;
+        // Force fresh fetch so a newly-logged-in account is never routed
+        // based on a previous user's cached role.
+        final profile = await svc.getProfile(forceRefresh: true);
+        if (!mounted) return;
+        final userRole = profile?['role'] as String?;
         if (!mounted) return;
         if (userRole == 'factory') {
           context.go(AppRoutes.factoryDashboard);
@@ -75,7 +81,11 @@ class _SplashPageState extends State<SplashPage>
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [Color(0xFF0D2260), AppColors.primary, AppColors.primaryLight],
+            colors: [
+              Color(0xFF0D2260),
+              AppColors.primary,
+              AppColors.primaryLight,
+            ],
           ),
         ),
         child: Center(
