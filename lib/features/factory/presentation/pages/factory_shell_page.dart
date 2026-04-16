@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:qassa/core/theme/theme_context_extension.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../core/constants/app_colors.dart';
 
 // ════════════════════════════════════
 // FACTORY SHELL
@@ -15,7 +15,7 @@ class FactoryShellPage extends StatelessWidget {
       body: shell,
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: context.colors.surface,
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.06),
@@ -102,7 +102,7 @@ class _FactoryNavItem extends StatelessWidget {
               style: TextStyle(
                 fontFamily: 'Tajawal',
                 fontSize: 10,
-                color: isActive ? AppColors.primary : AppColors.textDisabled,
+                color: isActive ? context.colors.primary : context.colors.textDisabled,
                 fontWeight: isActive ? FontWeight.w700 : FontWeight.w400,
               ),
             ),
@@ -112,7 +112,7 @@ class _FactoryNavItem extends StatelessWidget {
               width: isActive ? 18 : 0,
               height: 3,
               decoration: BoxDecoration(
-                color: AppColors.primary,
+                color: context.colors.primary,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),

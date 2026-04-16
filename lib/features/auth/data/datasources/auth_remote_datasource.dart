@@ -21,6 +21,8 @@ abstract class AuthRemoteDataSource {
     required String role,
     String? brandName,
   });
+
+  Future<void> deleteAccount();
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -84,6 +86,13 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<void> signOut() async {
+    await _client.auth.signOut();
+  }
+
+  @override
+  Future<void> deleteAccount() async {
+    // Call the server-side function that handles complete account deletion
+    await _client.rpc('delete_user_account');
     await _client.auth.signOut();
   }
 }

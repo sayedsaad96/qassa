@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:qassa/core/theme/theme_context_extension.dart';
 import 'package:flutter/services.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import '../constants/app_colors.dart';
 
 // ═══════════════════════════════════════════════
 // DEBOUNCER — prevents rapid successive calls
@@ -83,14 +83,14 @@ class _Placeholder extends StatelessWidget {
     return Container(
       width: width,
       height: height,
-      color: color ?? AppColors.background,
-      child: const Center(
+      color: color ?? context.colors.background,
+      child: Center(
         child: SizedBox(
           width: 20,
           height: 20,
           child: CircularProgressIndicator(
             strokeWidth: 2,
-            color: AppColors.primaryLight,
+            color: context.colors.primaryLight,
           ),
         ),
       ),
@@ -108,9 +108,9 @@ class _ErrorPlaceholder extends StatelessWidget {
     return Container(
       width: width,
       height: height,
-      color: AppColors.background,
-      child: const Icon(Icons.broken_image_rounded,
-          color: AppColors.textDisabled, size: 28),
+      color: context.colors.background,
+      child: Icon(Icons.broken_image_rounded,
+          color: context.colors.textDisabled, size: 28),
     );
   }
 }

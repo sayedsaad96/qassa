@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 /// Provides current user profile data.
@@ -52,6 +53,55 @@ class UserService {
     final profile = await getProfile();
     final name = profile?['name'] as String? ?? 'M';
     return name.isNotEmpty ? name[0].toUpperCase() : 'M';
+  }
+
+  /// Get avatar/logo URL from user profile
+  Future<String?> get avatarUrl async {
+    final profile = await getProfile();
+    return profile?['avatar_url'] as String?;
+  }
+
+  /// Get the business name (brand name or factory name based on role)
+  Future<String> get businessName async {
+    final profile = await getProfile();
+    final role = profile?['role'] as String?;
+    if (role == 'factory') {
+      final factory = await getFactoryProfile();
+      return factory?['name'] as String? ?? 'مصنعك';
+    }
+    return profile?['brand_name'] as String? ?? 'براند';
+  }
+
+  /// Upload avatar image to Supabase Storage and update profile
+  Future<String?> uploadAvatar(String filePath) async {
+    final uid = currentUserId;
+    if (uid == null) return null;
+
+    try {
+      final fileExt = filePath.split('.').last.toLowerCase();
+      final storagePath = 'avatars/$uid/avatar.$fileExt';
+
+      await _client.storage.from('avatars').upload(
+            storagePath,
+            File(filePath),
+            fileOptions: const FileOptions(upsert: true),
+          );
+
+      final publicUrl =
+          _client.storage.from('avatars').getPublicUrl(storagePath);
+
+      // Update user profile with new avatar URL
+      await _client
+          .from('users')
+          .update({'avatar_url': publicUrl}).eq('id', uid);
+
+      // Clear cache so next read gets the updated URL
+      _cachedProfile = null;
+
+      return publicUrl;
+    } catch (_) {
+      return null;
+    }
   }
 
   // ── Factory profile ───────────────────────────────────
@@ -109,6 +159,31 @@ class UserService {
       };
     } catch (_) {
       return {'requests': 0, 'offers': 0, 'accepted': 0};
+    }
+  }
+
+  // ── Update Profile ─────────────────────────────────────
+  Future<bool> updateProfile(Map<String, dynamic> data) async {
+    final uid = currentUserId;
+    if (uid == null) return false;
+    try {
+      await _client.from('users').update(data).eq('id', uid);
+      _cachedProfile = null;
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  Future<bool> updateFactoryProfile(Map<String, dynamic> data) async {
+    final uid = currentUserId;
+    if (uid == null) return false;
+    try {
+      await _client.from('factories').update(data).eq('owner_id', uid);
+      _cachedFactory = null;
+      return true;
+    } catch (_) {
+      return false;
     }
   }
 

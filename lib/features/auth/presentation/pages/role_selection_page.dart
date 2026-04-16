@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:qassa/core/theme/theme_context_extension.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_constants.dart';
-import '../../../../core/constants/app_text_styles.dart';
 import '../../../../core/router/app_router.dart';
 
 class RoleSelectionPage extends StatelessWidget {
@@ -11,7 +10,7 @@ class RoleSelectionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.surface,
+      backgroundColor: context.colors.surface,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(AppConstants.spacingMd),
@@ -19,12 +18,12 @@ class RoleSelectionPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 24),
-              Text('أنت مين في Qassa؟', style: AppTextStyles.h1),
+              Text('أنت مين في Qassa؟', style: context.textStyles.h1),
               const SizedBox(height: 6),
               Text(
                 'اختار دورك لتبدأ رحلتك',
-                style: AppTextStyles.body.copyWith(
-                  color: AppColors.textSecondary,
+                style: context.textStyles.body.copyWith(
+                  color: context.colors.textSecondary,
                 ),
               ),
               const SizedBox(height: 28),
@@ -34,15 +33,15 @@ class RoleSelectionPage extends StatelessWidget {
                 emoji: '🎨',
                 title: 'أنا صاحب براند',
                 subtitle: 'عايز أصنع ملابس وأبني براند',
-                gradientColors: [AppColors.accent, AppColors.accentLight],
+                gradientColors: [context.colors.accent, context.colors.accentLight],
                 valueProps: const [
                   'ابعت طلبك واستقبل عروض من مصانع',
                   'قارن الأسعار واختار الأنسب',
                   'الطلب ينُشر في أقل من 60 ثانية',
                 ],
-                propDotColor: AppColors.accent,
+                propDotColor: context.colors.accent,
                 ctaLabel: 'ابدأ كصاحب براند ←',
-                ctaColor: AppColors.accent,
+                ctaColor: context.colors.accent,
                 onTap: () => context.push('${AppRoutes.emailAuth}?role=brand'),
               ),
 
@@ -53,15 +52,15 @@ class RoleSelectionPage extends StatelessWidget {
                 emoji: '🏭',
                 title: 'أنا صاحب مصنع',
                 subtitle: 'عندي طاقة إنتاج وعايز عملاء',
-                gradientColors: [AppColors.primary, AppColors.primaryLight],
+                gradientColors: [context.colors.primary, context.colors.primaryLight],
                 valueProps: const [
                   'اعرض طلبات البراندات بتخصصك',
                   'ابعت عروض وكسب عملاء جدد',
                   'ابني سمعتك على المنصة',
                 ],
-                propDotColor: AppColors.primaryLight,
+                propDotColor: context.colors.primaryLight,
                 ctaLabel: 'ابدأ كصاحب مصنع ←',
-                ctaColor: AppColors.primary,
+                ctaColor: context.colors.primary,
                 onTap: () =>
                     context.push('${AppRoutes.emailAuth}?role=factory'),
               ),
@@ -70,7 +69,7 @@ class RoleSelectionPage extends StatelessWidget {
               Center(
                 child: Text(
                   'التسجيل مجاني تماماً',
-                  style: AppTextStyles.caption,
+                  style: context.textStyles.caption,
                 ),
               ),
             ],
@@ -108,9 +107,9 @@ class _RoleCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.colors.surface,
         borderRadius: BorderRadius.circular(AppConstants.radiusLg),
-        border: Border.all(color: AppColors.border, width: 1.5),
+        border: Border.all(color: context.colors.border, width: 1.5),
         boxShadow: const [
           BoxShadow(
             color: Color(0x0A000000),
@@ -145,8 +144,8 @@ class _RoleCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(title, style: AppTextStyles.h4),
-                    Text(subtitle, style: AppTextStyles.caption),
+                    Text(title, style: context.textStyles.h4),
+                    Text(subtitle, style: context.textStyles.caption),
                   ],
                 ),
               ),
@@ -167,7 +166,7 @@ class _RoleCard extends StatelessWidget {
                       shape: BoxShape.circle,
                     ),
                   ),
-                  Expanded(child: Text(prop, style: AppTextStyles.bodySm)),
+                  Expanded(child: Text(prop, style: context.textStyles.bodySm)),
                 ],
               ),
             ),
@@ -186,7 +185,7 @@ class _RoleCard extends StatelessWidget {
                 ),
                 elevation: 0,
               ),
-              child: Text(ctaLabel, style: AppTextStyles.btnTextSm),
+              child: Text(ctaLabel, style: context.textStyles.btnTextSm),
             ),
           ),
         ],

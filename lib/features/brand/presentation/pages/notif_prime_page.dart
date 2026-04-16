@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:qassa/core/theme/theme_context_extension.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/constants/app_assets.dart';
-import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_constants.dart';
-import '../../../../core/constants/app_text_styles.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/widgets/app_widgets.dart';
 import '../../../../core/widgets/app_asset_widgets.dart';
@@ -13,7 +12,7 @@ class NotifPrimePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.surface,
+      backgroundColor: context.colors.surface,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(AppConstants.spacingXl),
@@ -25,13 +24,12 @@ class NotifPrimePage extends StatelessWidget {
                 width: 88,
                 height: 88,
                 decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [AppColors.primary, AppColors.primaryLight],
+                  gradient: LinearGradient(colors: [context.colors.primary, context.colors.primaryLight],
                   ),
                   borderRadius: BorderRadius.circular(24),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.primary.withValues(alpha: 0.3),
+                      color: context.colors.primary.withValues(alpha: 0.3),
                       blurRadius: 24,
                       spreadRadius: 4,
                     ),
@@ -42,11 +40,11 @@ class NotifPrimePage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 24),
-              Text('ابقى أول المُبلَّغين!', style: AppTextStyles.h2),
+              Text('ابقى أول المُبلَّغين!', style: context.textStyles.h2),
               const SizedBox(height: 12),
               Text(
                 'هنبعتلك إشعار فور ما أي مصنع يبعت عرض على طلبك — عشان تقدر ترد بسرعة وتختار الأحسن.',
-                style: AppTextStyles.body.copyWith(color: AppColors.textSecondary),
+                style: context.textStyles.body.copyWith(color: context.colors.textSecondary),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 24),
@@ -55,9 +53,9 @@ class NotifPrimePage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  _BenefitPill(label: '⚡ ردود سريعة', bg: AppColors.successBg, color: AppColors.success),
+                  _BenefitPill(label: '⚡ ردود سريعة', bg: context.colors.successBg, color: context.colors.success),
                   const SizedBox(width: 8),
-                  _BenefitPill(label: '🏆 عروض أفضل', bg: AppColors.primaryPale, color: AppColors.primary),
+                  _BenefitPill(label: '🏆 عروض أفضل', bg: context.colors.primaryPale, color: context.colors.primary),
                 ],
               ),
               const SizedBox(height: 36),
@@ -79,7 +77,7 @@ class NotifPrimePage extends StatelessWidget {
               const SizedBox(height: 12),
               Text(
                 'لن نرسل إشعارات غير ضرورية',
-                style: AppTextStyles.caption,
+                style: context.textStyles.caption,
               ),
             ],
           ),
@@ -105,7 +103,7 @@ class _BenefitPill extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: AppTextStyles.caption.copyWith(color: color, fontWeight: FontWeight.w700),
+        style: context.textStyles.caption.copyWith(color: color, fontWeight: FontWeight.w700),
       ),
     );
   }
@@ -132,7 +130,7 @@ class WaHandoffPage extends StatelessWidget {
         'أهلاً، أنا من تطبيق Qassa. اتفقنا على طلب رقم #$requestNum — $productType $quantity قطعة بسعر $price ج/قطعة. إجمالي: $total ج. تسليم: $leadTime يوم. نبدأ؟ 🙏';
 
     return Scaffold(
-      backgroundColor: AppColors.surface,
+      backgroundColor: context.colors.surface,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(AppConstants.spacingXl),
@@ -141,11 +139,11 @@ class WaHandoffPage extends StatelessWidget {
               const SizedBox(height: 16),
               SvgIllustration(AppAssets.successAccepted, width: 160, height: 160),
               const SizedBox(height: 16),
-              Text('تم قبول العرض!', style: AppTextStyles.h2),
+              Text('تم قبول العرض!', style: context.textStyles.h2),
               const SizedBox(height: 8),
               Text(
                 'تواصل مع $factoryName على واتساب لتأكيد التفاصيل وبدء الإنتاج',
-                style: AppTextStyles.body.copyWith(color: AppColors.textSecondary),
+                style: context.textStyles.body.copyWith(color: context.colors.textSecondary),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 20),
@@ -155,18 +153,18 @@ class WaHandoffPage extends StatelessWidget {
                 width: double.infinity,
                 padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(
-                  color: AppColors.background,
+                  color: context.colors.background,
                   borderRadius: BorderRadius.circular(AppConstants.radiusMd),
-                  border: Border.all(color: AppColors.border),
+                  border: Border.all(color: context.colors.border),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('رقم الطلب للمرجعية', style: AppTextStyles.caption),
+                    Text('رقم الطلب للمرجعية', style: context.textStyles.caption),
                     Text(
                       '#$requestNum',
-                      style: AppTextStyles.h3.copyWith(
-                        color: AppColors.primary,
+                      style: context.textStyles.h3.copyWith(
+                        color: context.colors.primary,
                         fontFamily: 'monospace',
                       ),
                     ),
@@ -188,12 +186,12 @@ class WaHandoffPage extends StatelessWidget {
                   children: [
                     Text(
                       '📱 رسالة جاهزة على واتساب',
-                      style: AppTextStyles.h5.copyWith(color: Colors.white),
+                      style: context.textStyles.h5.copyWith(color: Colors.white),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       'هتبعت الرسالة دي تلقائياً:',
-                      style: AppTextStyles.caption.copyWith(color: Colors.white.withValues(alpha: 0.8)),
+                      style: context.textStyles.caption.copyWith(color: Colors.white.withValues(alpha: 0.8)),
                     ),
                     const SizedBox(height: 10),
                     Container(
@@ -207,7 +205,7 @@ class WaHandoffPage extends StatelessWidget {
                       ),
                       child: Text(
                         waMessage,
-                        style: AppTextStyles.bodySm.copyWith(color: Colors.white),
+                        style: context.textStyles.bodySm.copyWith(color: Colors.white),
                       ),
                     ),
                     const SizedBox(height: 12),
@@ -227,7 +225,7 @@ class WaHandoffPage extends StatelessWidget {
                         ),
                         child: Text(
                           'افتح واتساب',
-                          style: AppTextStyles.btnTextSm.copyWith(color: const Color(0xFF25D366)),
+                          style: context.textStyles.btnTextSm.copyWith(color: const Color(0xFF25D366)),
                         ),
                       ),
                     ),

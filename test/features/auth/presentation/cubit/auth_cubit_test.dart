@@ -13,6 +13,8 @@ class MockSignInUseCase extends Mock implements SignInUseCase {}
 
 class MockSignOutUseCase extends Mock implements SignOutUseCase {}
 
+class MockDeleteAccountUseCase extends Mock implements DeleteAccountUseCase {}
+
 class MockUserService extends Mock implements UserService {}
 
 void main() {
@@ -20,12 +22,14 @@ void main() {
   late MockSignUpUseCase mockSignUpUseCase;
   late MockSignInUseCase mockSignInUseCase;
   late MockSignOutUseCase mockSignOutUseCase;
+  late MockDeleteAccountUseCase mockDeleteAccountUseCase;
   late MockUserService mockUserService;
 
   setUp(() {
     mockSignUpUseCase = MockSignUpUseCase();
     mockSignInUseCase = MockSignInUseCase();
     mockSignOutUseCase = MockSignOutUseCase();
+    mockDeleteAccountUseCase = MockDeleteAccountUseCase();
     mockUserService = MockUserService();
     // stub clearCache so it is a no-op in all tests
     when(() => mockUserService.clearCache()).thenReturn(null);
@@ -33,6 +37,7 @@ void main() {
       signUpUseCase: mockSignUpUseCase,
       signInUseCase: mockSignInUseCase,
       signOutUseCase: mockSignOutUseCase,
+      deleteAccountUseCase: mockDeleteAccountUseCase,
       userService: mockUserService,
     );
   });

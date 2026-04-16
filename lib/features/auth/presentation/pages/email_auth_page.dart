@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:qassa/core/theme/theme_context_extension.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_constants.dart';
-import '../../../../core/constants/app_text_styles.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/widgets/app_widgets.dart';
 import '../../../../core/di/injection.dart';
@@ -67,9 +66,9 @@ class _EmailAuthBodyState extends State<_EmailAuthBody> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.surface,
+      backgroundColor: context.colors.surface,
       appBar: AppBar(
-        backgroundColor: AppColors.surface,
+        backgroundColor: context.colors.surface,
         title: const Text('إنشاء حساب'),
         leading: BackButton(
           onPressed: () {
@@ -102,18 +101,18 @@ class _EmailAuthBodyState extends State<_EmailAuthBody> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 12),
-                  Text('ادخل بياناتك', style: AppTextStyles.h2),
+                  Text('ادخل بياناتك', style: context.textStyles.h2),
                   const SizedBox(height: 6),
                   Text(
                     'سجل حسابك بالإيميل والباسورد',
-                    style: AppTextStyles.body.copyWith(
-                      color: AppColors.textSecondary,
+                    style: context.textStyles.body.copyWith(
+                      color: context.colors.textSecondary,
                     ),
                   ),
                   const SizedBox(height: 28),
 
                   // Name
-                  Text('اسمك', style: AppTextStyles.label),
+                  Text('اسمك', style: context.textStyles.label),
                   const SizedBox(height: 6),
                   AppTextField(
                     hint: 'الاسم الأول والأخير',
@@ -126,7 +125,7 @@ class _EmailAuthBodyState extends State<_EmailAuthBody> {
 
                   // Brand name (brand only)
                   if (isBrand) ...[
-                    Text('اسم البراند', style: AppTextStyles.label),
+                    Text('اسم البراند', style: context.textStyles.label),
                     const SizedBox(height: 6),
                     AppTextField(
                       hint: 'مثال: Nova',
@@ -139,7 +138,7 @@ class _EmailAuthBodyState extends State<_EmailAuthBody> {
                   ],
 
                   // Email
-                  Text('الإيميل', style: AppTextStyles.label),
+                  Text('الإيميل', style: context.textStyles.label),
                   const SizedBox(height: 6),
                   AppTextField(
                     hint: 'example@email.com',
@@ -160,7 +159,7 @@ class _EmailAuthBodyState extends State<_EmailAuthBody> {
                   const SizedBox(height: 14),
 
                   // Password
-                  Text('الباسورد', style: AppTextStyles.label),
+                  Text('الباسورد', style: context.textStyles.label),
                   const SizedBox(height: 6),
                   AppTextField(
                     hint: '6 حروف أو أكتر',
@@ -171,7 +170,7 @@ class _EmailAuthBodyState extends State<_EmailAuthBody> {
                         _obscurePassword
                             ? Icons.visibility_off_rounded
                             : Icons.visibility_rounded,
-                        color: AppColors.textSecondary,
+                        color: context.colors.textSecondary,
                         size: 20,
                       ),
                       onPressed: () =>
@@ -205,8 +204,8 @@ class _EmailAuthBodyState extends State<_EmailAuthBody> {
                     children: [
                       Text(
                         'عندك حساب؟ ',
-                        style: AppTextStyles.body.copyWith(
-                          color: AppColors.textSecondary,
+                        style: context.textStyles.body.copyWith(
+                          color: context.colors.textSecondary,
                         ),
                       ),
                       GestureDetector(
@@ -215,8 +214,8 @@ class _EmailAuthBodyState extends State<_EmailAuthBody> {
                         ),
                         child: Text(
                           'سجل دخول',
-                          style: AppTextStyles.body.copyWith(
-                            color: AppColors.primary,
+                          style: context.textStyles.body.copyWith(
+                            color: context.colors.primary,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -279,9 +278,9 @@ class _LoginBodyState extends State<_LoginBody> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.surface,
+      backgroundColor: context.colors.surface,
       appBar: AppBar(
-        backgroundColor: AppColors.surface,
+        backgroundColor: context.colors.surface,
         title: const Text('تسجيل دخول'),
         leading: BackButton(
           onPressed: () {
@@ -314,18 +313,18 @@ class _LoginBodyState extends State<_LoginBody> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 12),
-                  Text('أهلاً بيك تاني', style: AppTextStyles.h2),
+                  Text('أهلاً بيك تاني', style: context.textStyles.h2),
                   const SizedBox(height: 6),
                   Text(
                     'سجل دخولك بالإيميل والباسورد',
-                    style: AppTextStyles.body.copyWith(
-                      color: AppColors.textSecondary,
+                    style: context.textStyles.body.copyWith(
+                      color: context.colors.textSecondary,
                     ),
                   ),
                   const SizedBox(height: 28),
 
                   // Email
-                  Text('الإيميل', style: AppTextStyles.label),
+                  Text('الإيميل', style: context.textStyles.label),
                   const SizedBox(height: 6),
                   AppTextField(
                     hint: 'example@email.com',
@@ -346,7 +345,7 @@ class _LoginBodyState extends State<_LoginBody> {
                   const SizedBox(height: 14),
 
                   // Password
-                  Text('الباسورد', style: AppTextStyles.label),
+                  Text('الباسورد', style: context.textStyles.label),
                   const SizedBox(height: 6),
                   AppTextField(
                     hint: 'ادخل الباسورد',
@@ -357,7 +356,7 @@ class _LoginBodyState extends State<_LoginBody> {
                         _obscurePassword
                             ? Icons.visibility_off_rounded
                             : Icons.visibility_rounded,
-                        color: AppColors.textSecondary,
+                        color: context.colors.textSecondary,
                         size: 20,
                       ),
                       onPressed: () =>
@@ -388,8 +387,8 @@ class _LoginBodyState extends State<_LoginBody> {
                     children: [
                       Text(
                         'مالكش حساب؟ ',
-                        style: AppTextStyles.body.copyWith(
-                          color: AppColors.textSecondary,
+                        style: context.textStyles.body.copyWith(
+                          color: context.colors.textSecondary,
                         ),
                       ),
                       GestureDetector(
@@ -398,8 +397,8 @@ class _LoginBodyState extends State<_LoginBody> {
                         ),
                         child: Text(
                           'سجل حساب جديد',
-                          style: AppTextStyles.body.copyWith(
-                            color: AppColors.primary,
+                          style: context.textStyles.body.copyWith(
+                            color: context.colors.primary,
                             fontWeight: FontWeight.w700,
                           ),
                         ),

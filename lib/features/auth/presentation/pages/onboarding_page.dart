@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:qassa/core/theme/theme_context_extension.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/constants/app_assets.dart';
-import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_constants.dart';
-import '../../../../core/constants/app_text_styles.dart';
 import '../../../../core/router/app_router.dart';
 
 class OnboardingPage extends StatefulWidget {
@@ -45,7 +44,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.surface,
+      backgroundColor: context.colors.surface,
       body: SafeArea(
         child: Column(
           children: [
@@ -55,7 +54,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 onPressed: () => context.go(AppRoutes.roleSelection),
                 child: Text(
                   'تخطى',
-                  style: AppTextStyles.body.copyWith(color: AppColors.textSecondary),
+                  style: context.textStyles.body.copyWith(color: context.colors.textSecondary),
                 ),
               ),
             ),
@@ -77,7 +76,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   height: 8,
                   margin: const EdgeInsets.symmetric(horizontal: 3),
                   decoration: BoxDecoration(
-                    color: i == _currentPage ? AppColors.primary : AppColors.border,
+                    color: i == _currentPage ? context.colors.primary : context.colors.border,
                     borderRadius: BorderRadius.circular(4),
                   ),
                 ),
@@ -101,14 +100,14 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
+                    backgroundColor: context.colors.primary,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(AppConstants.radiusMd),
                     ),
                   ),
                   child: Text(
                     _currentPage < _slides.length - 1 ? 'التالي ←' : 'ابدأ الآن ←',
-                    style: AppTextStyles.btnText,
+                    style: context.textStyles.btnText,
                   ),
                 ),
               ),
@@ -148,11 +147,11 @@ class _OnboardSlide {
             ),
           ),
           const SizedBox(height: 32),
-          Text(title, style: AppTextStyles.h2, textAlign: TextAlign.center),
+          Text(title, style: context.textStyles.h2, textAlign: TextAlign.center),
           const SizedBox(height: 12),
           Text(
             subtitle,
-            style: AppTextStyles.body.copyWith(color: AppColors.textSecondary),
+            style: context.textStyles.body.copyWith(color: context.colors.textSecondary),
             textAlign: TextAlign.center,
           ),
         ],

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:qassa/core/theme/theme_context_extension.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:uuid/uuid.dart';
-import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../core/router/app_router.dart';
@@ -117,10 +117,10 @@ class _FactoryProfileSetupPageState extends State<FactoryProfileSetupPage> {
     return BlocProvider.value(
       value: sl<FactoryProfileCubit>(),
       child: Scaffold(
-        backgroundColor: AppColors.background,
+        backgroundColor: context.colors.background,
         appBar: AppBar(
           title: const Text('إعداد البروفايل'),
-          backgroundColor: AppColors.background,
+          backgroundColor: context.colors.background,
         ),
         body: BlocConsumer<FactoryProfileCubit, FactoryProfileState>(
           listener: (context, state) {
@@ -276,7 +276,7 @@ class _FactoryProfileSetupPageState extends State<FactoryProfileSetupPage> {
                             );
                           }
                           return Container(
-                            color: AppColors.primaryPale,
+                            color: context.colors.primaryPale,
                             child: const Center(
                               child: Padding(
                                 padding: EdgeInsets.all(8.0),
@@ -318,8 +318,8 @@ class _FactoryProfileSetupPageState extends State<FactoryProfileSetupPage> {
           label: const Text('إضافة صور جديدة'),
           style: OutlinedButton.styleFrom(
             padding: const EdgeInsets.symmetric(vertical: 12),
-            foregroundColor: AppColors.primary,
-            side: const BorderSide(color: AppColors.primary),
+            foregroundColor: context.colors.primary,
+            side: BorderSide(color: context.colors.primary),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(AppConstants.radiusMd),
             ),

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:qassa/core/theme/theme_context_extension.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_constants.dart';
-import '../../../../core/constants/app_text_styles.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../core/widgets/app_widgets.dart';
 import '../../../../core/utils/app_responsive.dart';
@@ -52,9 +51,9 @@ class _SendOfferPageState extends State<SendOfferPage> {
           }
         },
         child: Scaffold(
-          backgroundColor: AppColors.surface,
+          backgroundColor: context.colors.surface,
           appBar: AppBar(
-            backgroundColor: AppColors.surface,
+            backgroundColor: context.colors.surface,
             title: const Text('إرسال عرض'),
             leading: IconButton(
               icon: const Icon(Icons.arrow_back_ios_rounded),
@@ -73,12 +72,12 @@ class _SendOfferPageState extends State<SendOfferPage> {
                     Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: AppColors.successBg,
+                        color: context.colors.successBg,
                         borderRadius: BorderRadius.circular(
                           AppConstants.radiusSm,
                         ),
                         border: Border.all(
-                          color: AppColors.success.withValues(alpha: 0.2),
+                          color: context.colors.success.withValues(alpha: 0.2),
                         ),
                       ),
                       child: Row(
@@ -88,8 +87,8 @@ class _SendOfferPageState extends State<SendOfferPage> {
                           Expanded(
                             child: Text(
                               'طلبات مشابهة على المنصة: 35–55 ج/قطعة — كن تنافسياً!',
-                              style: AppTextStyles.caption.copyWith(
-                                color: AppColors.success,
+                              style: context.textStyles.caption.copyWith(
+                                color: context.colors.success,
                               ),
                             ),
                           ),
@@ -98,7 +97,7 @@ class _SendOfferPageState extends State<SendOfferPage> {
                     ),
                     const SizedBox(height: 16),
 
-                    Text('سعرك للقطعة', style: AppTextStyles.label),
+                    Text('سعرك للقطعة', style: context.textStyles.label),
                     const SizedBox(height: 6),
                     Row(
                       children: [
@@ -123,15 +122,15 @@ class _SendOfferPageState extends State<SendOfferPage> {
                         const SizedBox(width: 8),
                         Text(
                           'جنيه / قطعة',
-                          style: AppTextStyles.body.copyWith(
-                            color: AppColors.textSecondary,
+                          style: context.textStyles.body.copyWith(
+                            color: context.colors.textSecondary,
                           ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 14),
 
-                    Text('مدة التنفيذ', style: AppTextStyles.label),
+                    Text('مدة التنفيذ', style: context.textStyles.label),
                     const SizedBox(height: 6),
                     Row(
                       children: [
@@ -154,16 +153,16 @@ class _SendOfferPageState extends State<SendOfferPage> {
                         const SizedBox(width: 8),
                         Text(
                           'يوم',
-                          style: AppTextStyles.body.copyWith(
-                            color: AppColors.textSecondary,
+                          style: context.textStyles.body.copyWith(
+                            color: context.colors.textSecondary,
                           ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 14),
 
-                    Text('ملاحظة', style: AppTextStyles.label),
-                    Text('اختياري', style: AppTextStyles.caption),
+                    Text('ملاحظة', style: context.textStyles.label),
+                    Text('اختياري', style: context.textStyles.caption),
                     const SizedBox(height: 6),
                     AppTextField(
                       hint: 'أي معلومات إضافية عن المصنع أو الخامات…',

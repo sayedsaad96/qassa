@@ -90,6 +90,8 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<void> signOut() => _dataSource.signOut();
 
+  @override
+  Future<void> deleteAccount() => _dataSource.deleteAccount();
   UserEntity _modelToEntity(UserModel m) => UserEntity(
     id: m.id,
     email: m.email,

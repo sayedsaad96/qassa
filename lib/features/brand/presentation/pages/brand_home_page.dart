@@ -1,10 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:qassa/core/theme/theme_context_extension.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_constants.dart';
-import '../../../../core/constants/app_text_styles.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/services/user_service.dart';
@@ -12,6 +11,8 @@ import '../../../../core/widgets/app_widgets.dart';
 import '../../../../core/utils/app_responsive.dart';
 import '../cubit/factories_cubit.dart';
 import '../../domain/entities/entities.dart';
+import '../../../notifications/presentation/widgets/notification_bell.dart';
+import '../../../notifications/presentation/cubit/notifications_cubit.dart';
 
 class BrandHomePage extends StatefulWidget {
   const BrandHomePage({super.key});
@@ -29,6 +30,7 @@ class _BrandHomePageState extends State<BrandHomePage> {
     super.initState();
     _loadUser();
     unawaited(sl<FactoriesCubit>().loadFactories());
+    sl<NotificationsCubit>().startPolling();
   }
 
   Future<void> _loadUser() async {
@@ -48,7 +50,7 @@ class _BrandHomePageState extends State<BrandHomePage> {
     return BlocProvider.value(
       value: sl<FactoriesCubit>(),
       child: Scaffold(
-        backgroundColor: AppColors.background,
+        backgroundColor: context.colors.background,
         body: ResponsiveCenter(
           maxWidth: 800, // wider for desktop view
           child: RefreshIndicator(
@@ -57,19 +59,19 @@ class _BrandHomePageState extends State<BrandHomePage> {
               unawaited(sl<FactoriesCubit>().loadFactories());
               _loadUser();
             },
-            color: AppColors.primary,
+            color: context.colors.primary,
             child: CustomScrollView(
               slivers: [
                 SliverToBoxAdapter(
                   child: Container(
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       gradient: LinearGradient(
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                         colors: [
-                          Color(0xFF0D2260),
-                          AppColors.primary,
-                          AppColors.primaryLight,
+                          const Color(0xFF0D2260),
+                          context.colors.primary,
+                          context.colors.primaryLight,
                         ],
                       ),
                     ),
@@ -87,7 +89,7 @@ class _BrandHomePageState extends State<BrandHomePage> {
                           children: [
                             Text(
                               'Qassa ✨',
-                              style: AppTextStyles.h4.copyWith(
+                              style: context.textStyles.h4.copyWith(
                                 color: Colors.white,
                               ),
                             ),
@@ -96,7 +98,7 @@ class _BrandHomePageState extends State<BrandHomePage> {
                               _firstName.isEmpty
                                   ? 'أهلاً 👋'
                                   : 'أهلاً، $_firstName 👋',
-                              style: AppTextStyles.h2.copyWith(
+                              style: context.textStyles.h2.copyWith(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w900,
                               ),
@@ -104,26 +106,13 @@ class _BrandHomePageState extends State<BrandHomePage> {
                             if (_brandNameVal.isNotEmpty)
                               Text(
                                 'براند: $_brandNameVal',
-                                style: AppTextStyles.caption.copyWith(
+                                style: context.textStyles.caption.copyWith(
                                   color: Colors.white.withValues(alpha: 0.75),
                                 ),
                               ),
                           ],
                         ),
-                        GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              color: Colors.white.withValues(alpha: 0.15),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: const Center(
-                              child: Text('🔔', style: TextStyle(fontSize: 20)),
-                            ),
-                          ),
-                        ),
+                        const NotificationBell(),
                       ],
                     ),
                   ),
@@ -139,12 +128,12 @@ class _BrandHomePageState extends State<BrandHomePage> {
                           children: [
                             Text(
                               '🚀 ابدأ أول طلب تصنيع',
-                              style: AppTextStyles.h4,
+                              style: context.textStyles.h4,
                             ),
                             const SizedBox(height: 4),
                             Text(
                               'أرسل طلبك في أقل من 60 ثانية واستقبل عروض من مصانع متخصصة',
-                              style: AppTextStyles.bodySm,
+                              style: context.textStyles.bodySm,
                             ),
                             const SizedBox(height: 12),
                             AppButton(
@@ -160,15 +149,33 @@ class _BrandHomePageState extends State<BrandHomePage> {
                       const SectionTitle(title: 'مصانع موصى بيها 🔥'),
                       BlocBuilder<FactoriesCubit, FactoriesState>(
                         builder: (context, state) {
-                          if (state is FactoriesLoading) {
+                          if (state is FactoriesLoading || state is FactoriesInitial) {
                             return const SizedBox(
                               height: 100,
                               child: AppLoading(),
                             );
                           }
                           if (state is FactoriesLoaded) {
+                            if (state.allFactories.isEmpty) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 20),
+                                child: Center(
+                                  child: Text(
+                                    'لا توجد مصانع حالياً',
+                                    style: context.textStyles.caption.copyWith(
+                                      color: context.colors.textSecondary,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }
+
+                            // Sort by rating descending
+                            final recommended = state.allFactories.toList()
+                              ..sort((a, b) => b.rating.compareTo(a.rating));
+
                             return Column(
-                              children: state.factories
+                              children: recommended
                                   .take(3)
                                   .map(
                                     (f) => _FactoryCard(
@@ -213,8 +220,8 @@ class _FactoryCard extends StatelessWidget {
               width: 48,
               height: 48,
               decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [AppColors.primary, AppColors.primaryLight],
+                gradient: LinearGradient(
+                  colors: [context.colors.primary, context.colors.primaryLight],
                 ),
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -227,19 +234,19 @@ class _FactoryCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(factory.name, style: AppTextStyles.h5),
-                  Text(factory.city, style: AppTextStyles.caption),
+                  Text(factory.name, style: context.textStyles.h5),
+                  Text(factory.city, style: context.textStyles.caption),
                   Row(
                     children: [
                       Text(
                         '★ ${factory.ratingFormatted}',
-                        style: AppTextStyles.caption.copyWith(
+                        style: context.textStyles.caption.copyWith(
                           color: const Color(0xFFF59E0B),
                         ),
                       ),
                       Text(
                         ' · ${factory.reviewCount} تقييم',
-                        style: AppTextStyles.caption,
+                        style: context.textStyles.caption,
                       ),
                     ],
                   ),
@@ -249,13 +256,13 @@ class _FactoryCard extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               decoration: BoxDecoration(
-                color: AppColors.primaryPale,
+                color: context.colors.primaryPale,
                 borderRadius: BorderRadius.circular(AppConstants.radiusPill),
               ),
               child: Text(
                 'من ${factory.minQuantity} ق',
-                style: AppTextStyles.caption.copyWith(
-                  color: AppColors.primary,
+                style: context.textStyles.caption.copyWith(
+                  color: context.colors.primary,
                   fontWeight: FontWeight.w700,
                 ),
               ),

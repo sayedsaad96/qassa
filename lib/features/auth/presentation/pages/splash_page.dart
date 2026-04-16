@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:qassa/core/theme/theme_context_extension.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/constants/app_assets.dart';
-import '../../../../core/constants/app_colors.dart';
-import '../../../../core/constants/app_text_styles.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/services/user_service.dart';
@@ -77,14 +76,14 @@ class _SplashPageState extends State<SplashPage>
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Color(0xFF0D2260),
-              AppColors.primary,
-              AppColors.primaryLight,
+              const Color(0xFF0D2260),
+              context.colors.primary,
+              context.colors.primaryLight,
             ],
           ),
         ),
@@ -100,7 +99,7 @@ class _SplashPageState extends State<SplashPage>
                   const SizedBox(height: 20),
                   Text(
                     'Qassa',
-                    style: AppTextStyles.display.copyWith(
+                    style: context.textStyles.display.copyWith(
                       color: Colors.white,
                       fontSize: 32,
                       fontWeight: FontWeight.w900,
@@ -109,7 +108,7 @@ class _SplashPageState extends State<SplashPage>
                   const SizedBox(height: 8),
                   Text(
                     'قِصّة كل قطعة تبدأ هنا',
-                    style: AppTextStyles.body.copyWith(
+                    style: context.textStyles.body.copyWith(
                       color: Colors.white.withValues(alpha: 0.75),
                     ),
                   ),

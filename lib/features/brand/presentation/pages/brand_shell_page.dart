@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:qassa/core/theme/theme_context_extension.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../core/constants/app_colors.dart';
-import '../../../../core/constants/app_text_styles.dart';
 
 class BrandShellPage extends StatelessWidget {
   final StatefulNavigationShell shell;
@@ -15,7 +14,7 @@ class BrandShellPage extends StatelessWidget {
       body: shell,
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: context.colors.surface,
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.06),
@@ -77,8 +76,8 @@ class _NavItem extends StatelessWidget {
             const SizedBox(height: 2),
             Text(
               label,
-              style: AppTextStyles.caption.copyWith(
-                color: isActive ? AppColors.primary : AppColors.textDisabled,
+              style: context.textStyles.caption.copyWith(
+                color: isActive ? context.colors.primary : context.colors.textDisabled,
                 fontWeight: isActive ? FontWeight.w700 : FontWeight.w400,
                 fontSize: 10,
               ),
@@ -89,7 +88,7 @@ class _NavItem extends StatelessWidget {
               width: isActive ? 18 : 0,
               height: 3,
               decoration: BoxDecoration(
-                color: AppColors.primary,
+                color: context.colors.primary,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),

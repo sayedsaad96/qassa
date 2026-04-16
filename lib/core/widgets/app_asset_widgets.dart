@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:qassa/core/theme/theme_context_extension.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../constants/app_colors.dart';
 import '../constants/app_constants.dart';
-import '../constants/app_text_styles.dart';
 import '../constants/app_assets.dart';
 
 // ═══════════════════════════════════════════════
@@ -118,13 +117,13 @@ class EmptyStateWithIllustration extends StatelessWidget {
             const SizedBox(height: AppConstants.spacingMd),
             Text(
               title,
-              style: AppTextStyles.h3,
+              style: context.textStyles.h3,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: AppConstants.spacingSm),
             Text(
               subtitle,
-              style: AppTextStyles.body.copyWith(color: AppColors.textSecondary),
+              style: context.textStyles.body.copyWith(color: context.colors.textSecondary),
               textAlign: TextAlign.center,
             ),
             if (ctaLabel != null && onCta != null) ...[
@@ -134,14 +133,14 @@ class EmptyStateWithIllustration extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: onCta,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
+                    backgroundColor: context.colors.primary,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(AppConstants.radiusMd),
                     ),
                     padding: const EdgeInsets.symmetric(horizontal: 32),
                   ),
-                  child: Text(ctaLabel!, style: AppTextStyles.btnText),
+                  child: Text(ctaLabel!, style: context.textStyles.btnText),
                 ),
               ),
             ],
@@ -202,11 +201,11 @@ class SuccessScreenContent extends StatelessWidget {
             height: 180,
           ),
           const SizedBox(height: AppConstants.spacingMd),
-          Text(title, style: AppTextStyles.h2, textAlign: TextAlign.center),
+          Text(title, style: context.textStyles.h2, textAlign: TextAlign.center),
           const SizedBox(height: AppConstants.spacingSm),
           Text(
             subtitle,
-            style: AppTextStyles.body.copyWith(color: AppColors.textSecondary),
+            style: context.textStyles.body.copyWith(color: context.colors.textSecondary),
             textAlign: TextAlign.center,
           ),
           if (actions.isNotEmpty) ...[

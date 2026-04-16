@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../core/constants/app_colors.dart';
-import '../../../../core/constants/app_text_styles.dart';
+import 'package:qassa/core/theme/theme_context_extension.dart';
 import '../../../../core/utils/app_responsive.dart';
 import '../../../../core/widgets/app_widgets.dart';
 
@@ -10,7 +9,7 @@ class PrivacySecurityPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.colors.background,
       appBar: AppBar(title: const Text('الخصوصية والأمان')),
       body: ResponsiveCenter(
         child: Padding(
@@ -21,18 +20,18 @@ class PrivacySecurityPage extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.security_rounded,
                     size: 64,
-                    color: AppColors.primary,
+                    color: context.colors.primary,
                   ),
                   const SizedBox(height: 16),
-                  Text('الخصوصية والأمان', style: AppTextStyles.h3),
+                  Text('الخصوصية والأمان', style: context.textStyles.h3),
                   const SizedBox(height: 8),
                   Text(
                     'سيتم توفير هذه الميزة قريباً..',
-                    style: AppTextStyles.body.copyWith(
-                      color: AppColors.textSecondary,
+                    style: context.textStyles.body.copyWith(
+                      color: context.colors.textSecondary,
                     ),
                   ),
                 ],

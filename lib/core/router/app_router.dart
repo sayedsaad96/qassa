@@ -29,6 +29,7 @@ import '../../features/auth/presentation/pages/edit_profile_page.dart';
 import '../../features/auth/presentation/pages/notifications_settings_page.dart';
 import '../../features/auth/presentation/pages/privacy_security_page.dart';
 import '../../features/auth/presentation/pages/help_support_page.dart';
+import '../../features/notifications/presentation/pages/notifications_page.dart';
 
 abstract class AppRoutes {
   static const String splash = '/';
@@ -62,6 +63,7 @@ abstract class AppRoutes {
   // Profile Settings
   static const String editProfile = '/profile/edit';
   static const String notifications = '/profile/notifications';
+  static const String notificationsCenter = '/notifications';
   static const String privacySecurity = '/profile/privacy';
   static const String helpSupport = '/profile/help';
 
@@ -139,6 +141,11 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.helpSupport,
       builder: (context, state) => const HelpSupportPage(),
+    ),
+    GoRoute(
+      path: AppRoutes.notificationsCenter,
+      parentNavigatorKey: _rootNavigatorKey,
+      builder: (context, state) => const NotificationsPage(),
     ),
 
     // ── Brand Shell (Bottom Nav) ───────────────────

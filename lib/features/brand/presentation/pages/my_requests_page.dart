@@ -1,11 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:qassa/core/theme/theme_context_extension.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/constants/app_assets.dart';
-import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_constants.dart';
-import '../../../../core/constants/app_text_styles.dart';
 import '../../../../core/widgets/app_asset_widgets.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../core/router/app_router.dart';
@@ -35,13 +34,13 @@ class _MyRequestsPageState extends State<MyRequestsPage> {
     return BlocProvider.value(
       value: sl<RequestsCubit>(),
       child: Scaffold(
-        backgroundColor: AppColors.background,
+        backgroundColor: context.colors.background,
         appBar: AppBar(
           title: const Text('طلباتي 📋'),
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(46),
             child: Container(
-              color: AppColors.surface,
+              color: context.colors.surface,
               child: Row(
                 children: [
                   _Tab(
@@ -69,7 +68,7 @@ class _MyRequestsPageState extends State<MyRequestsPage> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () => context.push(AppRoutes.createRequest),
-          backgroundColor: AppColors.primary,
+          backgroundColor: context.colors.primary,
           elevation: 4,
           child: const Icon(Icons.add_rounded, color: Colors.white, size: 28),
         ),
@@ -94,7 +93,7 @@ class _MyRequestsPageState extends State<MyRequestsPage> {
                 }
                 return RefreshIndicator(
                   onRefresh: () async => sl<RequestsCubit>().loadMyRequests(),
-                  color: AppColors.primary,
+                  color: context.colors.primary,
                   child: ListView.separated(
                     padding: const EdgeInsets.all(AppConstants.spacingMd),
                     itemCount: state.requests.length,
@@ -145,7 +144,7 @@ class _Tab extends StatelessWidget {
           decoration: BoxDecoration(
             border: Border(
               bottom: BorderSide(
-                color: isActive ? AppColors.primary : Colors.transparent,
+                color: isActive ? context.colors.primary : Colors.transparent,
                 width: 2,
               ),
             ),
@@ -153,8 +152,8 @@ class _Tab extends StatelessWidget {
           child: Text(
             label,
             textAlign: TextAlign.center,
-            style: AppTextStyles.label.copyWith(
-              color: isActive ? AppColors.primary : AppColors.textSecondary,
+            style: context.textStyles.label.copyWith(
+              color: isActive ? context.colors.primary : context.colors.textSecondary,
               fontWeight: isActive ? FontWeight.w700 : FontWeight.w400,
             ),
           ),
@@ -174,7 +173,7 @@ class _RequestCard extends StatelessWidget {
     final isActive = request.status == RequestStatus.active;
     return AppCard(
       onTap: onTap,
-      borderColor: isActive ? AppColors.accent : AppColors.border,
+      borderColor: isActive ? context.colors.accent : context.colors.border,
       borderWidth: isActive ? 1.5 : 1.0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -188,11 +187,11 @@ class _RequestCard extends StatelessWidget {
                   children: [
                     Text(
                       '${_typeEmoji(request.productType)} ${request.productType} — ${request.quantity} قطعة',
-                      style: AppTextStyles.h5,
+                      style: context.textStyles.h5,
                     ),
                     Text(
                       '${request.material} · ${request.targetPricePerPiece != null ? 'السعر: ${request.targetPricePerPiece!.toStringAsFixed(0)} ج' : 'بدون سعر محدد'}',
-                      style: AppTextStyles.caption,
+                      style: context.textStyles.caption,
                     ),
                   ],
                 ),
@@ -200,12 +199,12 @@ class _RequestCard extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(request.timeAgo, style: AppTextStyles.caption),
+                  Text(request.timeAgo, style: context.textStyles.caption),
                   if (request.requestNumber != null)
                     Text(
                       '#${request.requestNumber}',
-                      style: AppTextStyles.caption.copyWith(
-                        color: AppColors.textDisabled,
+                      style: context.textStyles.caption.copyWith(
+                        color: context.colors.textDisabled,
                       ),
                     ),
                 ],
@@ -222,14 +221,14 @@ class _RequestCard extends StatelessWidget {
                     vertical: 4,
                   ),
                   decoration: BoxDecoration(
-                    color: AppColors.accent,
+                    color: context.colors.accent,
                     borderRadius: BorderRadius.circular(
                       AppConstants.radiusPill,
                     ),
                   ),
                   child: Text(
                     '🔴 ${request.offerCount} عرض جديد',
-                    style: AppTextStyles.caption.copyWith(
+                    style: context.textStyles.caption.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.w700,
                     ),
@@ -242,18 +241,18 @@ class _RequestCard extends StatelessWidget {
                     vertical: 4,
                   ),
                   decoration: BoxDecoration(
-                    color: AppColors.warningBg,
+                    color: context.colors.warningBg,
                     borderRadius: BorderRadius.circular(
                       AppConstants.radiusPill,
                     ),
                     border: Border.all(
-                      color: AppColors.warning.withValues(alpha: 0.3),
+                      color: context.colors.warning.withValues(alpha: 0.3),
                     ),
                   ),
                   child: Text(
                     '⚡ ${request.offerCount} مصانع ردت',
-                    style: AppTextStyles.caption.copyWith(
-                      color: AppColors.warning,
+                    style: context.textStyles.caption.copyWith(
+                      color: context.colors.warning,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -263,8 +262,8 @@ class _RequestCard extends StatelessWidget {
           else
             Text(
               '⏳ لا يوجد عروض بعد',
-              style: AppTextStyles.caption.copyWith(
-                color: AppColors.textDisabled,
+              style: context.textStyles.caption.copyWith(
+                color: context.colors.textDisabled,
               ),
             ),
         ],

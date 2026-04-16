@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:qassa/core/theme/theme_context_extension.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_constants.dart';
-import '../../../../core/constants/app_text_styles.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/widgets/app_widgets.dart';
@@ -73,12 +72,12 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
     final req = _request!;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.colors.background,
       appBar: AppBar(
         title: Text(
           '#${req.requestNumber ?? req.id.substring(0, 8).toUpperCase()}',
-          style: AppTextStyles.h5.copyWith(
-            color: AppColors.textSecondary,
+          style: context.textStyles.h5.copyWith(
+            color: context.colors.textSecondary,
             fontFamily: 'monospace',
           ),
         ),
@@ -97,8 +96,7 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [AppColors.primaryPale, Colors.white],
+                  gradient: LinearGradient(colors: [context.colors.primaryPale, Colors.white],
                   ),
                   borderRadius: BorderRadius.circular(AppConstants.radiusMd),
                   border: Border.all(color: const Color(0xFFC7D5F8)),
@@ -108,8 +106,8 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
                   children: [
                     Text(
                       '👤 صاحب الطلب',
-                      style: AppTextStyles.caption.copyWith(
-                        color: AppColors.primary,
+                      style: context.textStyles.caption.copyWith(
+                        color: context.colors.primary,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -120,8 +118,8 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
                           width: 40,
                           height: 40,
                           decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              colors: [AppColors.accent, AppColors.accentLight],
+                            gradient: LinearGradient(
+                              colors: [context.colors.accent, context.colors.accentLight],
                             ),
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -142,10 +140,10 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(req.brandName, style: AppTextStyles.h5),
+                              Text(req.brandName, style: context.textStyles.h5),
                               Text(
                                 'عضو على المنصة',
-                                style: AppTextStyles.caption,
+                                style: context.textStyles.caption,
                               ),
                             ],
                           ),
@@ -156,15 +154,15 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
                             vertical: 3,
                           ),
                           decoration: BoxDecoration(
-                            color: AppColors.successBg,
+                            color: context.colors.successBg,
                             borderRadius: BorderRadius.circular(
                               AppConstants.radiusPill,
                             ),
                           ),
                           child: Text(
                             '✓ براند موثق',
-                            style: AppTextStyles.caption.copyWith(
-                              color: AppColors.success,
+                            style: context.textStyles.caption.copyWith(
+                              color: context.colors.success,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
@@ -201,7 +199,7 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
                           label: 'المواد',
                           value: req.material,
                           valueColor: req.material != 'مش محدد'
-                              ? AppColors.primary
+                              ? context.colors.primary
                               : null,
                         ),
                         _DetailTile(
@@ -210,8 +208,8 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
                           valueColor: req.quality == RequestQuality.high
                               ? Colors.orange
                               : req.quality == RequestQuality.low
-                              ? AppColors.textSecondary
-                              : AppColors.primary,
+                              ? context.colors.textSecondary
+                              : context.colors.primary,
                         ),
                         _DetailTile(
                           label: 'الميزانية',
@@ -219,7 +217,7 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
                               ? '~${req.targetPricePerPiece!.toStringAsFixed(0)} ج/ق'
                               : 'غير محدد',
                           valueColor: req.targetPricePerPiece != null
-                              ? AppColors.success
+                              ? context.colors.success
                               : null,
                         ),
                       ],
@@ -230,7 +228,7 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
                         width: double.infinity,
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          color: AppColors.background,
+                          color: context.colors.background,
                           borderRadius: BorderRadius.circular(
                             AppConstants.radiusSm,
                           ),
@@ -238,9 +236,9 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('ملاحظات', style: AppTextStyles.caption),
+                            Text('ملاحظات', style: context.textStyles.caption),
                             const SizedBox(height: 4),
-                            Text(req.notes!, style: AppTextStyles.body),
+                            Text(req.notes!, style: context.textStyles.body),
                           ],
                         ),
                       ),
@@ -255,14 +253,14 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
                   width: double.infinity,
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: AppColors.primaryPale,
+                    color: context.colors.primaryPale,
                     borderRadius: BorderRadius.circular(AppConstants.radiusMd),
                     border: Border.all(color: const Color(0xFFC7D5F8)),
                   ),
-                  child: const Center(
+                  child: Center(
                     child: Text(
                       '📎 صورة مرجعية متاحة للعرض',
-                      style: TextStyle(color: AppColors.primary),
+                      style: TextStyle(color: context.colors.primary),
                     ),
                   ),
                 ),
@@ -275,9 +273,9 @@ class _RequestDetailPageState extends State<RequestDetailPage> {
       bottomNavigationBar: ResponsiveCenter(
         child: Container(
           padding: const EdgeInsets.all(AppConstants.spacingMd),
-          decoration: const BoxDecoration(
-            color: AppColors.surface,
-            border: Border(top: BorderSide(color: AppColors.border)),
+          decoration: BoxDecoration(
+            color: context.colors.surface,
+            border: Border(top: BorderSide(color: context.colors.border)),
           ),
           child: AppButton(
             label: '📤 إرسال عرض ←',
@@ -321,20 +319,20 @@ class _DetailTile extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       decoration: BoxDecoration(
-        color: AppColors.background,
+        color: context.colors.background,
         borderRadius: BorderRadius.circular(AppConstants.radiusSm),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: context.colors.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(label, style: AppTextStyles.caption),
+          Text(label, style: context.textStyles.caption),
           Text(
             value,
-            style: AppTextStyles.label.copyWith(
+            style: context.textStyles.label.copyWith(
               fontWeight: FontWeight.w700,
-              color: valueColor ?? AppColors.textPrimary,
+              color: valueColor ?? context.colors.textPrimary,
             ),
           ),
         ],

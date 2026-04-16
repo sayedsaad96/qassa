@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import '../constants/app_colors.dart';
+import 'package:qassa/core/theme/theme_context_extension.dart';
+
 import '../constants/app_constants.dart';
-import '../constants/app_text_styles.dart';
+
 
 // ═══════════════════════════════════════════════
 // APP BUTTON
@@ -57,9 +58,9 @@ class AppButton extends StatelessWidget {
               ],
               Text(
                 label,
-                style: AppTextStyles.btnText.copyWith(
+                style: context.textStyles.btnText.copyWith(
                   fontSize: fontSize,
-                  color: _getTextColor(),
+                  color: _getTextColor(context),
                 ),
               ),
             ],
@@ -73,13 +74,13 @@ class AppButton extends StatelessWidget {
           child: ElevatedButton(
             onPressed: isLoading ? null : onPressed,
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
+              backgroundColor: context.colors.primary,
               foregroundColor: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(AppConstants.radiusMd),
               ),
               elevation: 0,
-              disabledBackgroundColor: AppColors.primaryLight.withValues(alpha: 0.5),
+              disabledBackgroundColor: context.colors.primaryLight.withValues(alpha: 0.5),
             ),
             child: child,
           ),
@@ -91,8 +92,8 @@ class AppButton extends StatelessWidget {
           child: OutlinedButton(
             onPressed: isLoading ? null : onPressed,
             style: OutlinedButton.styleFrom(
-              foregroundColor: AppColors.primary,
-              side: const BorderSide(color: AppColors.primary, width: 1.5),
+              foregroundColor: context.colors.primary,
+              side: BorderSide(color: context.colors.primary, width: 1.5),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(AppConstants.radiusMd),
               ),
@@ -107,7 +108,7 @@ class AppButton extends StatelessWidget {
           child: TextButton(
             onPressed: isLoading ? null : onPressed,
             style: TextButton.styleFrom(
-              foregroundColor: AppColors.textSecondary,
+              foregroundColor: context.colors.textSecondary,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(AppConstants.radiusMd),
               ),
@@ -122,7 +123,7 @@ class AppButton extends StatelessWidget {
           child: ElevatedButton(
             onPressed: isLoading ? null : onPressed,
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.success,
+              backgroundColor: context.colors.success,
               foregroundColor: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(AppConstants.radiusMd),
@@ -139,7 +140,7 @@ class AppButton extends StatelessWidget {
           child: ElevatedButton(
             onPressed: isLoading ? null : onPressed,
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.accent,
+              backgroundColor: context.colors.accent,
               foregroundColor: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(AppConstants.radiusMd),
@@ -156,7 +157,7 @@ class AppButton extends StatelessWidget {
           child: ElevatedButton(
             onPressed: isLoading ? null : onPressed,
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.error,
+              backgroundColor: context.colors.error,
               foregroundColor: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(AppConstants.radiusMd),
@@ -169,12 +170,12 @@ class AppButton extends StatelessWidget {
     }
   }
 
-  Color _getTextColor() {
+  Color _getTextColor(BuildContext context) {
     switch (variant) {
       case AppButtonVariant.outline:
-        return AppColors.primary;
+        return context.colors.primary;
       case AppButtonVariant.ghost:
-        return AppColors.textSecondary;
+        return context.colors.textSecondary;
       default:
         return Colors.white;
     }
@@ -237,7 +238,7 @@ class AppTextField extends StatelessWidget {
       focusNode: focusNode,
       textAlign: TextAlign.right,
       textDirection: TextDirection.rtl,
-      style: AppTextStyles.body,
+      style: context.textStyles.body,
       decoration: InputDecoration(
         hintText: hint,
         hintTextDirection: TextDirection.rtl,
@@ -265,14 +266,14 @@ class AppLoading extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           CircularProgressIndicator(
-            color: color ?? AppColors.primary,
+            color: color ?? context.colors.primary,
             strokeWidth: 3,
           ),
           if (message != null) ...[
             const SizedBox(height: 16),
             Text(
               message!,
-              style: AppTextStyles.body.copyWith(color: AppColors.textSecondary),
+              style: context.textStyles.body.copyWith(color: context.colors.textSecondary),
             ),
           ],
         ],
@@ -312,13 +313,13 @@ class EmptyStateWidget extends StatelessWidget {
             const SizedBox(height: AppConstants.spacingMd),
             Text(
               title,
-              style: AppTextStyles.h3,
+              style: context.textStyles.h3,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: AppConstants.spacingSm),
             Text(
               subtitle,
-              style: AppTextStyles.body.copyWith(color: AppColors.textSecondary),
+              style: context.textStyles.body.copyWith(color: context.colors.textSecondary),
               textAlign: TextAlign.center,
             ),
             if (ctaLabel != null && onCta != null) ...[
@@ -346,10 +347,10 @@ class AppSnackBar {
         content: Row(
           children: [
             const Text('✅ ', style: TextStyle(fontSize: 16)),
-            Expanded(child: Text(message, style: AppTextStyles.body.copyWith(color: Colors.white))),
+            Expanded(child: Text(message, style: context.textStyles.body.copyWith(color: Colors.white))),
           ],
         ),
-        backgroundColor: AppColors.success,
+        backgroundColor: context.colors.success,
       ),
     );
   }
@@ -360,10 +361,10 @@ class AppSnackBar {
         content: Row(
           children: [
             const Text('❌ ', style: TextStyle(fontSize: 16)),
-            Expanded(child: Text(message, style: AppTextStyles.body.copyWith(color: Colors.white))),
+            Expanded(child: Text(message, style: context.textStyles.body.copyWith(color: Colors.white))),
           ],
         ),
-        backgroundColor: AppColors.error,
+        backgroundColor: context.colors.error,
       ),
     );
   }
@@ -374,10 +375,10 @@ class AppSnackBar {
         content: Row(
           children: [
             const Text('💡 ', style: TextStyle(fontSize: 16)),
-            Expanded(child: Text(message, style: AppTextStyles.body.copyWith(color: Colors.white))),
+            Expanded(child: Text(message, style: context.textStyles.body.copyWith(color: Colors.white))),
           ],
         ),
-        backgroundColor: AppColors.primary,
+        backgroundColor: context.colors.primary,
       ),
     );
   }
@@ -409,10 +410,10 @@ class AppCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(AppConstants.radiusMd),
       child: Container(
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: context.colors.surface,
           borderRadius: BorderRadius.circular(AppConstants.radiusMd),
           border: Border.all(
-            color: borderColor ?? AppColors.border,
+            color: borderColor ?? context.colors.border,
             width: borderWidth ?? 1.0,
           ),
           boxShadow: const [
@@ -452,9 +453,9 @@ class AppChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bgColor = selected
-        ? (selectedColor ?? AppColors.primary)
-        : AppColors.background;
-    final fgColor = selected ? Colors.white : (textColor ?? AppColors.textSecondary);
+        ? (selectedColor ?? context.colors.primary)
+        : context.colors.background;
+    final fgColor = selected ? Colors.white : (textColor ?? context.colors.textSecondary);
 
     return GestureDetector(
       onTap: onTap,
@@ -464,12 +465,12 @@ class AppChip extends StatelessWidget {
           color: bgColor,
           borderRadius: BorderRadius.circular(AppConstants.radiusPill),
           border: Border.all(
-            color: selected ? Colors.transparent : AppColors.border,
+            color: selected ? Colors.transparent : context.colors.border,
           ),
         ),
         child: Text(
           label,
-          style: AppTextStyles.caption.copyWith(
+          style: context.textStyles.caption.copyWith(
             fontWeight: FontWeight.w700,
             color: fgColor,
           ),
@@ -493,11 +494,11 @@ class GradientHeader extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: height,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xFF0D2260), AppColors.primary],
+          colors: [Color(0xFF0D2260), context.colors.primary],
         ),
       ),
       child: child,
@@ -530,13 +531,13 @@ class SectionTitle extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(title, style: AppTextStyles.label.copyWith(fontWeight: FontWeight.w700)),
+          Text(title, style: context.textStyles.label.copyWith(fontWeight: FontWeight.w700)),
           if (trailing != null)
             GestureDetector(
               onTap: onTrailingTap,
               child: Text(
                 trailing!,
-                style: AppTextStyles.caption.copyWith(color: AppColors.primary),
+                style: context.textStyles.caption.copyWith(color: context.colors.primary),
               ),
             ),
         ],
@@ -566,7 +567,7 @@ class StatCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: context.colors.surface,
           borderRadius: BorderRadius.circular(AppConstants.radiusMd),
           boxShadow: const [
             BoxShadow(
@@ -580,14 +581,14 @@ class StatCard extends StatelessWidget {
           children: [
             Text(
               value,
-              style: AppTextStyles.h1.copyWith(
-                color: valueColor ?? AppColors.primary,
+              style: context.textStyles.h1.copyWith(
+                color: valueColor ?? context.colors.primary,
               ),
             ),
             const SizedBox(height: 2),
             Text(
               label,
-              style: AppTextStyles.caption,
+              style: context.textStyles.caption,
               textAlign: TextAlign.center,
             ),
           ],

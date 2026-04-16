@@ -1,0 +1,513 @@
+﻿diff --git a/lib/core/widgets/app_widgets.dart b/lib/core/widgets/app_widgets.dart
+index 2e5b3c9..d1824ed 100644
+--- a/lib/core/widgets/app_widgets.dart
++++ b/lib/core/widgets/app_widgets.dart
+@@ -1,4 +1,5 @@
+ import 'package:flutter/material.dart';
++import 'package:qassa/core/theme/theme_context_extension.dart';
+ import '../constants/app_colors.dart';
+ import '../constants/app_constants.dart';
+ import '../constants/app_text_styles.dart';
+@@ -51,459 +52,6 @@ class AppButton extends StatelessWidget {
+               if (leadingWidget != null) ...[
+                 leadingWidget!,
+                 const SizedBox(width: 6),
+-              ] else if (icon != null) ...[
+-                Icon(icon, size: 18),
+-                const SizedBox(width: 6),
+-              ],
+-              Text(
+-                label,
+-                style: AppTextStyles.btnText.copyWith(
+-                  fontSize: fontSize,
+-                  color: _getTextColor(),
+-                ),
+-              ),
+-            ],
+-          );
+-
+-    switch (variant) {
+-      case AppButtonVariant.primary:
+-        return SizedBox(
+-          width: fullWidth ? double.infinity : null,
+-          height: h,
+-          child: ElevatedButton(
+-            onPressed: isLoading ? null : onPressed,
+-            style: ElevatedButton.styleFrom(
+-              backgroundColor: AppColors.primary,
+-              foregroundColor: Colors.white,
+-              shape: RoundedRectangleBorder(
+-                borderRadius: BorderRadius.circular(AppConstants.radiusMd),
+-              ),
+-              elevation: 0,
+-              disabledBackgroundColor: AppColors.primaryLight.withValues(alpha: 0.5),
+-            ),
+-            child: child,
+-          ),
+-        );
+-      case AppButtonVariant.outline:
+-        return SizedBox(
+-          width: fullWidth ? double.infinity : null,
+-          height: h,
+-          child: OutlinedButton(
+-            onPressed: isLoading ? null : onPressed,
+-            style: OutlinedButton.styleFrom(
+-              foregroundColor: AppColors.primary,
+-              side: const BorderSide(color: AppColors.primary, width: 1.5),
+-              shape: RoundedRectangleBorder(
+-                borderRadius: BorderRadius.circular(AppConstants.radiusMd),
+-              ),
+-            ),
+-            child: child,
+-          ),
+-        );
+-      case AppButtonVariant.ghost:
+-        return SizedBox(
+-          width: fullWidth ? double.infinity : null,
+-          height: h,
+-          child: TextButton(
+-            onPressed: isLoading ? null : onPressed,
+-            style: TextButton.styleFrom(
+-              foregroundColor: AppColors.textSecondary,
+-              shape: RoundedRectangleBorder(
+-                borderRadius: BorderRadius.circular(AppConstants.radiusMd),
+-              ),
+-            ),
+-            child: child,
+-          ),
+-        );
+-      case AppButtonVariant.success:
+-        return SizedBox(
+-          width: fullWidth ? double.infinity : null,
+-          height: h,
+-          child: ElevatedButton(
+-            onPressed: isLoading ? null : onPressed,
+-            style: ElevatedButton.styleFrom(
+-              backgroundColor: AppColors.success,
+-              foregroundColor: Colors.white,
+-              shape: RoundedRectangleBorder(
+-                borderRadius: BorderRadius.circular(AppConstants.radiusMd),
+-              ),
+-              elevation: 0,
+-            ),
+-            child: child,
+-          ),
+-        );
+-      case AppButtonVariant.accent:
+-        return SizedBox(
+-          width: fullWidth ? double.infinity : null,
+-          height: h,
+-          child: ElevatedButton(
+-            onPressed: isLoading ? null : onPressed,
+-            style: ElevatedButton.styleFrom(
+-              backgroundColor: AppColors.accent,
+-              foregroundColor: Colors.white,
+-              shape: RoundedRectangleBorder(
+-                borderRadius: BorderRadius.circular(AppConstants.radiusMd),
+-              ),
+-              elevation: 0,
+-            ),
+-            child: child,
+-          ),
+-        );
+-      case AppButtonVariant.danger:
+-        return SizedBox(
+-          width: fullWidth ? double.infinity : null,
+-          height: h,
+-          child: ElevatedButton(
+-            onPressed: isLoading ? null : onPressed,
+-            style: ElevatedButton.styleFrom(
+-              backgroundColor: AppColors.error,
+-              foregroundColor: Colors.white,
+-              shape: RoundedRectangleBorder(
+-                borderRadius: BorderRadius.circular(AppConstants.radiusMd),
+-              ),
+-              elevation: 0,
+-            ),
+-            child: child,
+-          ),
+-        );
+-    }
+-  }
+-
+-  Color _getTextColor() {
+-    switch (variant) {
+-      case AppButtonVariant.outline:
+-        return AppColors.primary;
+-      case AppButtonVariant.ghost:
+-        return AppColors.textSecondary;
+-      default:
+-        return Colors.white;
+-    }
+-  }
+-}
+-
+-// ═══════════════════════════════════════════════
+-// APP TEXT FIELD
+-// ═══════════════════════════════════════════════
+-class AppTextField extends StatelessWidget {
+-  final String hint;
+-  final TextEditingController? controller;
+-  final String? Function(String?)? validator;
+-  final TextInputType? keyboardType;
+-  final bool obscureText;
+-  final int? maxLines;
+-  final int? maxLength;
+-  final Widget? suffix;
+-  final Widget? prefix;
+-  final void Function(String)? onChanged;
+-  final bool readOnly;
+-  final VoidCallback? onTap;
+-  final TextInputAction? textInputAction;
+-  final bool enabled;
+-  final FocusNode? focusNode;
+-
+-  const AppTextField({
+-    super.key,
+-    required this.hint,
+-    this.controller,
+-    this.validator,
+-    this.keyboardType,
+-    this.obscureText = false,
+-    this.maxLines = 1,
+-    this.maxLength,
+-    this.suffix,
+-    this.prefix,
+-    this.onChanged,
+-    this.readOnly = false,
+-    this.onTap,
+-    this.textInputAction,
+-    this.enabled = true,
+-    this.focusNode,
+-  });
+-
+-  @override
+-  Widget build(BuildContext context) {
+-    return TextFormField(
+-      controller: controller,
+-      validator: validator,
+-      keyboardType: keyboardType,
+-      obscureText: obscureText,
+-      maxLines: maxLines,
+-      maxLength: maxLength,
+-      onChanged: onChanged,
+-      readOnly: readOnly,
+-      onTap: onTap,
+-      textInputAction: textInputAction,
+-      enabled: enabled,
+-      focusNode: focusNode,
+-      textAlign: TextAlign.right,
+-      textDirection: TextDirection.rtl,
+-      style: AppTextStyles.body,
+-      decoration: InputDecoration(
+-        hintText: hint,
+-        hintTextDirection: TextDirection.rtl,
+-        suffixIcon: suffix,
+-        prefixIcon: prefix,
+-        counterText: '',
+-      ),
+-    );
+-  }
+-}
+-
+-// ═══════════════════════════════════════════════
+-// LOADING WIDGET
+-// ═══════════════════════════════════════════════
+-class AppLoading extends StatelessWidget {
+-  final String? message;
+-  final Color? color;
+-
+-  const AppLoading({super.key, this.message, this.color});
+-
+-  @override
+-  Widget build(BuildContext context) {
+-    return Center(
+-      child: Column(
+-        mainAxisSize: MainAxisSize.min,
+-        children: [
+-          CircularProgressIndicator(
+-            color: color ?? AppColors.primary,
+-            strokeWidth: 3,
+-          ),
+-          if (message != null) ...[
+-            const SizedBox(height: 16),
+-            Text(
+-              message!,
+-              style: AppTextStyles.body.copyWith(color: AppColors.textSecondary),
+-            ),
+-          ],
+-        ],
+-      ),
+-    );
+-  }
+-}
+-
+-// ═══════════════════════════════════════════════
+-// EMPTY STATE WIDGET
+-// ═══════════════════════════════════════════════
+-class EmptyStateWidget extends StatelessWidget {
+-  final String emoji;
+-  final String title;
+-  final String subtitle;
+-  final String? ctaLabel;
+-  final VoidCallback? onCta;
+-
+-  const EmptyStateWidget({
+-    super.key,
+-    required this.emoji,
+-    required this.title,
+-    required this.subtitle,
+-    this.ctaLabel,
+-    this.onCta,
+-  });
+-
+-  @override
+-  Widget build(BuildContext context) {
+-    return Center(
+-      child: Padding(
+-        padding: const EdgeInsets.all(AppConstants.spacingXl),
+-        child: Column(
+-          mainAxisSize: MainAxisSize.min,
+-          children: [
+-            Text(emoji, style: const TextStyle(fontSize: 56)),
+-            const SizedBox(height: AppConstants.spacingMd),
+-            Text(
+-              title,
+-              style: AppTextStyles.h3,
+-              textAlign: TextAlign.center,
+-            ),
+-            const SizedBox(height: AppConstants.spacingSm),
+-            Text(
+-              subtitle,
+-              style: AppTextStyles.body.copyWith(color: AppColors.textSecondary),
+-              textAlign: TextAlign.center,
+-            ),
+-            if (ctaLabel != null && onCta != null) ...[
+-              const SizedBox(height: AppConstants.spacingLg),
+-              AppButton(
+-                label: ctaLabel!,
+-                onPressed: onCta,
+-                fullWidth: false,
+-              ),
+-            ],
+-          ],
+-        ),
+-      ),
+-    );
+-  }
+-}
+-
+-// ═══════════════════════════════════════════════
+-// APP SNACK BAR
+-// ═══════════════════════════════════════════════
+-class AppSnackBar {
+-  static void showSuccess(BuildContext context, String message) {
+-    ScaffoldMessenger.of(context).showSnackBar(
+-      SnackBar(
+-        content: Row(
+-          children: [
+-            const Text('✅ ', style: TextStyle(fontSize: 16)),
+-            Expanded(child: Text(message, style: AppTextStyles.body.copyWith(color: Colors.white))),
+-          ],
+-        ),
+-        backgroundColor: AppColors.success,
+-      ),
+-    );
+-  }
+-
+-  static void showError(BuildContext context, String message) {
+-    ScaffoldMessenger.of(context).showSnackBar(
+-      SnackBar(
+-        content: Row(
+-          children: [
+-            const Text('❌ ', style: TextStyle(fontSize: 16)),
+-            Expanded(child: Text(message, style: AppTextStyles.body.copyWith(color: Colors.white))),
+-          ],
+-        ),
+-        backgroundColor: AppColors.error,
+-      ),
+-    );
+-  }
+-
+-  static void showInfo(BuildContext context, String message) {
+-    ScaffoldMessenger.of(context).showSnackBar(
+-      SnackBar(
+-        content: Row(
+-          children: [
+-            const Text('💡 ', style: TextStyle(fontSize: 16)),
+-            Expanded(child: Text(message, style: AppTextStyles.body.copyWith(color: Colors.white))),
+-          ],
+-        ),
+-        backgroundColor: AppColors.primary,
+-      ),
+-    );
+-  }
+-}
+-
+-// ═══════════════════════════════════════════════
+-// APP CARD
+-// ═══════════════════════════════════════════════
+-class AppCard extends StatelessWidget {
+-  final Widget child;
+-  final VoidCallback? onTap;
+-  final Color? borderColor;
+-  final EdgeInsets? padding;
+-  final double? borderWidth;
+-
+-  const AppCard({
+-    super.key,
+-    required this.child,
+-    this.onTap,
+-    this.borderColor,
+-    this.padding,
+-    this.borderWidth,
+-  });
+-
+-  @override
+-  Widget build(BuildContext context) {
+-    return InkWell(
+-      onTap: onTap,
+-      borderRadius: BorderRadius.circular(AppConstants.radiusMd),
+-      child: Container(
+-        decoration: BoxDecoration(
+-          color: AppColors.surface,
+-          borderRadius: BorderRadius.circular(AppConstants.radiusMd),
+-          border: Border.all(
+-            color: borderColor ?? AppColors.border,
+-            width: borderWidth ?? 1.0,
+-          ),
+-          boxShadow: const [
+-            BoxShadow(
+-              color: Color(0x0A000000),
+-              blurRadius: 8,
+-              offset: Offset(0, 2),
+-            ),
+-          ],
+-        ),
+-        padding: padding ?? const EdgeInsets.all(AppConstants.spacingMd),
+-        child: child,
+-      ),
+-    );
+-  }
+-}
+-
+-// ═══════════════════════════════════════════════
+-// APP CHIP
+-// ═══════════════════════════════════════════════
+-class AppChip extends StatelessWidget {
+-  final String label;
+-  final bool selected;
+-  final VoidCallback? onTap;
+-  final Color? selectedColor;
+-  final Color? textColor;
+-
+-  const AppChip({
+-    super.key,
+-    required this.label,
+-    this.selected = false,
+-    this.onTap,
+-    this.selectedColor,
+-    this.textColor,
+-  });
+-
+-  @override
+-  Widget build(BuildContext context) {
+-    final bgColor = selected
+-        ? (selectedColor ?? AppColors.primary)
+-        : AppColors.background;
+-    final fgColor = selected ? Colors.white : (textColor ?? AppColors.textSecondary);
+-
+-    return GestureDetector(
+-      onTap: onTap,
+-      child: Container(
+-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+-        decoration: BoxDecoration(
+-          color: bgColor,
+-          borderRadius: BorderRadius.circular(AppConstants.radiusPill),
+-          border: Border.all(
+-            color: selected ? Colors.transparent : AppColors.border,
+-          ),
+-        ),
+-        child: Text(
+-          label,
+-          style: AppTextStyles.caption.copyWith(
+-            fontWeight: FontWeight.w700,
+-            color: fgColor,
+-          ),
+-        ),
+-      ),
+-    );
+-  }
+-}
+-
+-// ═══════════════════════════════════════════════
+-// GRADIENT HEADER
+-// ═══════════════════════════════════════════════
+-class GradientHeader extends StatelessWidget {
+-  final Widget child;
+-  final double? height;
+-
+-  const GradientHeader({super.key, required this.child, this.height});
+-
+-  @override
+-  Widget build(BuildContext context) {
+-    return Container(
+-      width: double.infinity,
+-      height: height,
+-      decoration: const BoxDecoration(
+-        gradient: LinearGradient(
+-          begin: Alignment.topLeft,
+-          end: Alignment.bottomRight,
+-          colors: [Color(0xFF0D2260), AppColors.primary],
+-        ),
+-      ),
+-      child: child,
+-    );
+-  }
+-}
+ 
+ // ═══════════════════════════════════════════════
+ // SECTION TITLE
+@@ -530,13 +78,13 @@ class SectionTitle extends StatelessWidget {
+       child: Row(
+         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+         children: [
+-          Text(title, style: AppTextStyles.label.copyWith(fontWeight: FontWeight.w700)),
++          Text(title, style: context.textStyles.label.copyWith(fontWeight: FontWeight.w700)),
+           if (trailing != null)
+             GestureDetector(
+               onTap: onTrailingTap,
+               child: Text(
+                 trailing!,
+-                style: AppTextStyles.caption.copyWith(color: AppColors.primary),
++                style: context.textStyles.caption.copyWith(color: context.colors.primary),
+               ),
+             ),
+         ],
+@@ -566,7 +114,7 @@ class StatCard extends StatelessWidget {
+       child: Container(
+         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+         decoration: BoxDecoration(
+-          color: AppColors.surface,
++          color: context.colors.surface,
+           borderRadius: BorderRadius.circular(AppConstants.radiusMd),
+           boxShadow: const [
+             BoxShadow(
+@@ -580,14 +128,14 @@ class StatCard extends StatelessWidget {
+           children: [
+             Text(
+               value,
+-              style: AppTextStyles.h1.copyWith(
+-                color: valueColor ?? AppColors.primary,
++              style: context.textStyles.h1.copyWith(
++                color: valueColor ?? context.colors.primary,
+               ),
+             ),
+             const SizedBox(height: 2),
+             Text(
+               label,
+-              style: AppTextStyles.caption,
++              style: context.textStyles.caption,
+               textAlign: TextAlign.center,
+             ),
+           ],

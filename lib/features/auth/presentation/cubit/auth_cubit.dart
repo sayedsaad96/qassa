@@ -31,17 +31,21 @@ class AuthError extends AuthState {
 
 class AuthUnauthenticated extends AuthState {}
 
+class AuthAccountDeleted extends AuthState {}
+
 // ── Cubit ─────────────────────────────────────────────
 class AuthCubit extends Cubit<AuthState> {
   final SignUpUseCase signUpUseCase;
   final SignInUseCase signInUseCase;
   final SignOutUseCase signOutUseCase;
+  final DeleteAccountUseCase deleteAccountUseCase;
   final UserService userService;
 
   AuthCubit({
     required this.signUpUseCase,
     required this.signInUseCase,
     required this.signOutUseCase,
+    required this.deleteAccountUseCase,
     required this.userService,
   }) : super(AuthInitial());
 
@@ -83,6 +87,17 @@ class AuthCubit extends Cubit<AuthState> {
     userService.clearCache(); // clear cache BEFORE sign-out
     await signOutUseCase();
     emit(AuthUnauthenticated());
+  }
+
+  Future<void> deleteAccount() async {
+    emit(AuthLoading());
+    try {
+      userService.clearCache();
+      await deleteAccountUseCase();
+      emit(AuthAccountDeleted());
+    } catch (e) {
+      emit(const AuthError('فشل في حذف الحساب، حاول مرة أخرى'));
+    }
   }
 
   void reset() {

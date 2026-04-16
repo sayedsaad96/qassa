@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:qassa/core/theme/theme_context_extension.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_constants.dart';
-import '../../../../core/constants/app_text_styles.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/services/user_service.dart';
 import '../../../../core/widgets/app_widgets.dart';
 import '../../../../core/utils/app_responsive.dart';
+import '../../../notifications/presentation/widgets/notification_bell.dart';
+import '../../../notifications/presentation/cubit/notifications_cubit.dart';
 
 // ════════════════════════════════════
 // FACTORY DASHBOARD (P2: stats only)
@@ -31,6 +32,7 @@ class _FactoryDashboardPageState extends State<FactoryDashboardPage> {
   void initState() {
     super.initState();
     _loadDashboard();
+    sl<NotificationsCubit>().startPolling();
   }
 
   Future<void> _loadDashboard() async {
@@ -59,21 +61,21 @@ class _FactoryDashboardPageState extends State<FactoryDashboardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.colors.background,
       body: ResponsiveCenter(
         maxWidth: 800,
         child: RefreshIndicator(
           onRefresh: _loadDashboard,
-          color: AppColors.primary,
+          color: context.colors.primary,
           child: CustomScrollView(
             slivers: [
               SliverToBoxAdapter(
                 child: Container(
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     gradient: LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
-                      colors: [Color(0xFF0D2260), AppColors.primary],
+                      colors: [const Color(0xFF0D2260), context.colors.primary],
                     ),
                   ),
                   padding: EdgeInsets.only(
@@ -90,37 +92,27 @@ class _FactoryDashboardPageState extends State<FactoryDashboardPage> {
                         children: [
                           Text(
                             '$_factoryName 🏭',
-                            style: AppTextStyles.h4.copyWith(
+                            style: context.textStyles.h4.copyWith(
                               color: Colors.white,
                             ),
                           ),
                           const SizedBox(height: 4),
                           Text(
                             'مرحباً، $_ownerName 👋',
-                            style: AppTextStyles.h2.copyWith(
+                            style: context.textStyles.h2.copyWith(
                               color: Colors.white,
                               fontWeight: FontWeight.w900,
                             ),
                           ),
                           Text(
                             'آخر تحديث: الآن',
-                            style: AppTextStyles.caption.copyWith(
+                            style: context.textStyles.caption.copyWith(
                               color: Colors.white.withValues(alpha: 0.7),
                             ),
                           ),
                         ],
                       ),
-                      Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.15),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: const Center(
-                          child: Text('🔔', style: TextStyle(fontSize: 20)),
-                        ),
-                      ),
+                      const NotificationBell(),
                     ],
                   ),
                 ),
@@ -140,13 +132,13 @@ class _FactoryDashboardPageState extends State<FactoryDashboardPage> {
                         StatCard(
                           value: '$_sentOffers',
                           label: 'عروض مرسلة',
-                          valueColor: AppColors.accent,
+                          valueColor: context.colors.accent,
                         ),
                         const SizedBox(width: 8),
                         StatCard(
                           value: '$_acceptedOffers',
                           label: 'مقبول',
-                          valueColor: AppColors.success,
+                          valueColor: context.colors.success,
                         ),
                       ],
                     ),
@@ -156,25 +148,25 @@ class _FactoryDashboardPageState extends State<FactoryDashboardPage> {
                     const SectionTitle(title: 'إجراءات سريعة'),
                     _QuickAction(
                       icon: '📋',
-                      iconBg: AppColors.primaryPale,
+                      iconBg: context.colors.primaryPale,
                       title: 'تصفح الطلبات الجديدة',
                       subtitle: '$_availableRequests طلب يناسب تخصصك',
                       badge: _availableRequests > 0
                           ? '$_availableRequests'
                           : null,
-                      badgeColor: AppColors.accent,
+                      badgeColor: context.colors.accent,
                       onTap: () => context.go(AppRoutes.factoryRequests),
                     ),
                     _QuickAction(
                       icon: '📤',
-                      iconBg: AppColors.accentPale,
+                      iconBg: context.colors.accentPale,
                       title: 'تابع عروضي',
                       subtitle: '$_sentOffers عروض مرسلة',
                       onTap: () => context.go(AppRoutes.factoryOffers),
                     ),
                     _QuickAction(
                       icon: '📊',
-                      iconBg: AppColors.successBg,
+                      iconBg: context.colors.successBg,
                       title: 'تحديث بروفايل المصنع',
                       subtitle: 'صور جديدة تزيد فرصك في الطلبات',
                       onTap: () => context.go(AppRoutes.factoryProfileSetup),
@@ -186,12 +178,12 @@ class _FactoryDashboardPageState extends State<FactoryDashboardPage> {
                       Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: AppColors.successBg,
+                          color: context.colors.successBg,
                           borderRadius: BorderRadius.circular(
                             AppConstants.radiusMd,
                           ),
                           border: Border.all(
-                            color: AppColors.success.withValues(alpha: 0.2),
+                            color: context.colors.success.withValues(alpha: 0.2),
                           ),
                         ),
                         child: Row(
@@ -201,8 +193,8 @@ class _FactoryDashboardPageState extends State<FactoryDashboardPage> {
                             Expanded(
                               child: Text(
                                 'معدل قبول عروضك: ${_acceptanceRate.toStringAsFixed(0)}%${_acceptanceRate >= 32 ? ' · أعلى من متوسط المنصة (32%)' : ''}',
-                                style: AppTextStyles.bodySm.copyWith(
-                                  color: AppColors.success,
+                                style: context.textStyles.bodySm.copyWith(
+                                  color: context.colors.success,
                                 ),
                               ),
                             ),
@@ -263,8 +255,8 @@ class _QuickAction extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title, style: AppTextStyles.h5),
-                  Text(subtitle, style: AppTextStyles.caption),
+                  Text(title, style: context.textStyles.h5),
+                  Text(subtitle, style: context.textStyles.caption),
                 ],
               ),
             ),
@@ -272,12 +264,12 @@ class _QuickAction extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                 decoration: BoxDecoration(
-                  color: badgeColor ?? AppColors.primary,
+                  color: badgeColor ?? context.colors.primary,
                   borderRadius: BorderRadius.circular(AppConstants.radiusPill),
                 ),
                 child: Text(
                   badge!,
-                  style: AppTextStyles.caption.copyWith(
+                  style: context.textStyles.caption.copyWith(
                     color: Colors.white,
                     fontWeight: FontWeight.w700,
                   ),

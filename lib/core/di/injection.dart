@@ -39,6 +39,9 @@ import '../../features/offers/domain/usecases/send_offer_usecase.dart';
 import '../../features/offers/domain/usecases/accept_offer_usecase.dart';
 import '../../features/offers/presentation/cubit/offers_cubit.dart';
 
+import '../../features/notifications/data/datasources/notification_remote_datasource.dart';
+import '../../features/notifications/presentation/cubit/notifications_cubit.dart';
+
 final sl = GetIt.instance;
 
 Future<void> configureDependencies() async {
@@ -56,11 +59,13 @@ Future<void> configureDependencies() async {
   sl.registerLazySingleton(() => SignUpUseCase(sl()));
   sl.registerLazySingleton(() => SignInUseCase(sl()));
   sl.registerLazySingleton(() => SignOutUseCase(sl()));
+  sl.registerLazySingleton(() => DeleteAccountUseCase(sl()));
   sl.registerLazySingleton(
     () => AuthCubit(
       signUpUseCase: sl(),
       signInUseCase: sl(),
       signOutUseCase: sl(),
+      deleteAccountUseCase: sl(),
       userService: sl(),
     ),
   );
@@ -131,6 +136,17 @@ Future<void> configureDependencies() async {
       sendOfferUseCase: sl(),
       acceptOfferUseCase: sl(),
       userService: sl(),
+    ),
+  );
+
+  // ── Notifications ──────────────────────────────────────
+  sl.registerLazySingleton<NotificationRemoteDataSource>(
+    () => NotificationRemoteDataSourceImpl(sl()),
+  );
+  sl.registerLazySingleton(
+    () => NotificationsCubit(
+      dataSource: sl(),
+      getUserId: () => sl<UserService>().currentUserId,
     ),
   );
 }

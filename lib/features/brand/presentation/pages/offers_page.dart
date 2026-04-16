@@ -1,11 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:qassa/core/theme/theme_context_extension.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/constants/app_assets.dart';
-import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_constants.dart';
-import '../../../../core/constants/app_text_styles.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/widgets/app_widgets.dart';
@@ -38,7 +37,7 @@ class _OffersPageState extends State<OffersPage> {
     return BlocProvider.value(
       value: sl<OffersCubit>(),
       child: Scaffold(
-        backgroundColor: AppColors.background,
+        backgroundColor: context.colors.background,
         appBar: AppBar(
           title: const Text('العروض'),
           leading: IconButton(
@@ -66,7 +65,7 @@ class _OffersPageState extends State<OffersPage> {
                 return RefreshIndicator(
                   onRefresh: () async =>
                       sl<OffersCubit>().loadOffers(widget.requestId),
-                  color: AppColors.primary,
+                  color: context.colors.primary,
                   child: ListView(
                     padding: const EdgeInsets.all(AppConstants.spacingMd),
                     children: [
@@ -75,7 +74,7 @@ class _OffersPageState extends State<OffersPage> {
                         children: [
                           Text(
                             '${state.offers.length} عروض وصلتك',
-                            style: AppTextStyles.h4,
+                            style: context.textStyles.h4,
                           ),
                           if (state.offers.length > 1)
                             TextButton.icon(
@@ -132,6 +131,9 @@ class _OffersPageState extends State<OffersPage> {
                             offer: offer,
                             isBestPrice: isBestPrice,
                             isFastest: isFastest,
+                            onDetails: () => context.push(
+                              '/brand/requests/${widget.requestId}/offers/${offer.id}/summary',
+                            ),
                             onAccept: () => context.push(
                               '/brand/requests/${widget.requestId}/offers/${offer.id}/summary',
                             ),
@@ -183,15 +185,15 @@ class _ComparisonCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color borderColor = AppColors.border;
-    if (isBestPrice) borderColor = AppColors.accent;
-    if (isFastest) borderColor = AppColors.primary;
+    Color borderColor = context.colors.border;
+    if (isBestPrice) borderColor = context.colors.accent;
+    if (isFastest) borderColor = context.colors.primary;
 
     return Container(
       width: 260,
       padding: const EdgeInsets.all(AppConstants.spacingMd),
       decoration: BoxDecoration(
-        color: AppColors.background,
+        color: context.colors.background,
         borderRadius: BorderRadius.circular(AppConstants.radiusMd),
         border: Border.all(
           color: borderColor,
@@ -206,7 +208,7 @@ class _ComparisonCard extends StatelessWidget {
               Expanded(
                 child: Text(
                   offer.factoryName,
-                  style: AppTextStyles.h5,
+                  style: context.textStyles.h5,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -214,7 +216,7 @@ class _ComparisonCard extends StatelessWidget {
               const SizedBox(width: 4),
               Text(
                 '★ ${offer.factoryRating.toStringAsFixed(1)}',
-                style: AppTextStyles.caption.copyWith(
+                style: context.textStyles.caption.copyWith(
                   color: const Color(0xFFF59E0B),
                   fontWeight: FontWeight.w700,
                 ),
@@ -226,19 +228,19 @@ class _ComparisonCard extends StatelessWidget {
             if (isBestPrice)
               _Badge(
                 label: '🏆 أفضل سعر',
-                gradient: [AppColors.accent, AppColors.accentLight],
+                gradient: [context.colors.accent, context.colors.accentLight],
               ),
             if (isFastest)
               _Badge(
                 label: '⚡ أسرع تسليم',
-                gradient: [AppColors.primary, AppColors.primaryLight],
+                gradient: [context.colors.primary, context.colors.primaryLight],
               ),
           ],
           const Divider(height: 24),
           _ComparisonRow(
             label: 'السعر للقطعة',
             value: '${offer.pricePerPiece.toStringAsFixed(0)} ج',
-            valueColor: AppColors.primary,
+            valueColor: context.colors.primary,
           ),
           _ComparisonRow(
             label: 'مدة التسليم',
@@ -251,11 +253,11 @@ class _ComparisonCard extends StatelessWidget {
             ),
           if (offer.notes != null && offer.notes!.isNotEmpty) ...[
             const SizedBox(height: 12),
-            Text('ملاحظات:', style: AppTextStyles.caption),
+            Text('ملاحظات:', style: context.textStyles.caption),
             const SizedBox(height: 4),
             Text(
               offer.notes!,
-              style: AppTextStyles.caption,
+              style: context.textStyles.caption,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
@@ -266,14 +268,14 @@ class _ComparisonCard extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               minimumSize: const Size(double.infinity, 44),
               backgroundColor: isBestPrice
-                  ? AppColors.accent
-                  : AppColors.primary,
+                  ? context.colors.accent
+                  : context.colors.primary,
               foregroundColor: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(AppConstants.radiusSm),
               ),
             ),
-            child: Text('✓ قبول', style: AppTextStyles.btnTextSm),
+            child: Text('✓ قبول', style: context.textStyles.btnTextSm),
           ),
         ],
       ),
@@ -299,10 +301,10 @@ class _ComparisonRow extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: AppTextStyles.caption),
+          Text(label, style: context.textStyles.caption),
           Text(
             value,
-            style: AppTextStyles.bodySm.copyWith(
+            style: context.textStyles.bodySm.copyWith(
               fontWeight: FontWeight.w700,
               color: valueColor,
             ),
@@ -319,19 +321,21 @@ class _OfferCard extends StatelessWidget {
   final bool isBestPrice;
   final bool isFastest;
   final VoidCallback onAccept;
+  final VoidCallback onDetails;
 
   const _OfferCard({
     required this.offer,
     required this.isBestPrice,
     required this.isFastest,
     required this.onAccept,
+    required this.onDetails,
   });
 
   @override
   Widget build(BuildContext context) {
-    Color borderColor = AppColors.border;
-    if (isBestPrice) borderColor = AppColors.accent;
-    if (isFastest) borderColor = AppColors.primary;
+    Color borderColor = context.colors.border;
+    if (isBestPrice) borderColor = context.colors.accent;
+    if (isFastest) borderColor = context.colors.primary;
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
@@ -350,14 +354,14 @@ class _OfferCard extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Text(offer.factoryName, style: AppTextStyles.h5),
+                          Text(offer.factoryName, style: context.textStyles.h5),
                           if (isBestPrice) ...[
                             const SizedBox(width: 6),
                             _Badge(
                               label: '🏆 أفضل سعر',
                               gradient: [
-                                AppColors.accent,
-                                AppColors.accentLight,
+                                context.colors.accent,
+                                context.colors.accentLight,
                               ],
                             ),
                           ] else if (isFastest) ...[
@@ -365,8 +369,8 @@ class _OfferCard extends StatelessWidget {
                             _Badge(
                               label: '⚡ أسرع تسليم',
                               gradient: [
-                                AppColors.primary,
-                                AppColors.primaryLight,
+                                context.colors.primary,
+                                context.colors.primaryLight,
                               ],
                             ),
                           ],
@@ -374,7 +378,7 @@ class _OfferCard extends StatelessWidget {
                       ),
                       Text(
                         '★ ${offer.factoryRating.toStringAsFixed(1)}',
-                        style: AppTextStyles.caption.copyWith(
+                        style: context.textStyles.caption.copyWith(
                           color: const Color(0xFFF59E0B),
                           fontWeight: FontWeight.w700,
                         ),
@@ -387,11 +391,11 @@ class _OfferCard extends StatelessWidget {
                   children: [
                     Text(
                       '${offer.pricePerPiece.toStringAsFixed(0)} ج',
-                      style: AppTextStyles.h2.copyWith(
-                        color: AppColors.primary,
+                      style: context.textStyles.h2.copyWith(
+                        color: context.colors.primary,
                       ),
                     ),
-                    Text('/ قطعة', style: AppTextStyles.caption),
+                    Text('/ قطعة', style: context.textStyles.caption),
                     // P2: Total cost display
                     if (offer.quantity > 0)
                       Container(
@@ -401,12 +405,12 @@ class _OfferCard extends StatelessWidget {
                           vertical: 2,
                         ),
                         decoration: BoxDecoration(
-                          color: AppColors.background,
+                          color: context.colors.background,
                           borderRadius: BorderRadius.circular(6),
                         ),
                         child: Text(
                           'إجمالي: ${offer.totalFormatted}',
-                          style: AppTextStyles.caption.copyWith(
+                          style: context.textStyles.caption.copyWith(
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -418,11 +422,11 @@ class _OfferCard extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               '⏱️ التسليم: ${offer.leadTimeDays} يوم',
-              style: AppTextStyles.bodySm,
+              style: context.textStyles.bodySm,
             ),
             if (offer.notes != null && offer.notes!.isNotEmpty) ...[
               const SizedBox(height: 4),
-              Text(offer.notes!, style: AppTextStyles.caption),
+              Text(offer.notes!, style: context.textStyles.caption),
             ],
             const SizedBox(height: 10),
             Row(
@@ -431,10 +435,10 @@ class _OfferCard extends StatelessWidget {
                   child: SizedBox(
                     height: 38,
                     child: OutlinedButton(
-                      onPressed: () {},
+                      onPressed: onDetails,
                       style: OutlinedButton.styleFrom(
-                        foregroundColor: AppColors.primary,
-                        side: const BorderSide(color: AppColors.primary),
+                        foregroundColor: context.colors.primary,
+                        side: BorderSide(color: context.colors.primary),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
                             AppConstants.radiusSm,
@@ -443,8 +447,8 @@ class _OfferCard extends StatelessWidget {
                       ),
                       child: Text(
                         'تفاصيل',
-                        style: AppTextStyles.btnTextSm.copyWith(
-                          color: AppColors.primary,
+                        style: context.textStyles.btnTextSm.copyWith(
+                          color: context.colors.primary,
                         ),
                       ),
                     ),
@@ -458,8 +462,8 @@ class _OfferCard extends StatelessWidget {
                       onPressed: onAccept,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: isBestPrice
-                            ? AppColors.accent
-                            : AppColors.primary,
+                            ? context.colors.accent
+                            : context.colors.primary,
                         foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
@@ -467,7 +471,7 @@ class _OfferCard extends StatelessWidget {
                           ),
                         ),
                       ),
-                      child: Text('✓ قبول', style: AppTextStyles.btnTextSm),
+                      child: Text('✓ قبول', style: context.textStyles.btnTextSm),
                     ),
                   ),
                 ),
@@ -549,7 +553,7 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
             }
 
             return Scaffold(
-              backgroundColor: AppColors.background,
+              backgroundColor: context.colors.background,
               appBar: AppBar(
                 title: const Text('ملخص الطلب'),
                 leading: IconButton(
@@ -558,7 +562,7 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
                 ),
                 bottom: PreferredSize(
                   preferredSize: const Size.fromHeight(1),
-                  child: Container(height: 1, color: AppColors.border),
+                  child: Container(height: 1, color: context.colors.border),
                 ),
               ),
               body: ResponsiveCenter(
@@ -579,14 +583,14 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('راجع التفاصيل قبل التأكيد', style: AppTextStyles.bodySm),
+          Text('راجع التفاصيل قبل التأكيد', style: context.textStyles.bodySm),
           const SizedBox(height: 14),
 
           // Factory identity
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: AppColors.primaryPale,
+              color: context.colors.primaryPale,
               borderRadius: BorderRadius.circular(AppConstants.radiusMd),
               border: Border.all(color: const Color(0xFFC7D5F8)),
             ),
@@ -596,8 +600,7 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
                   width: 42,
                   height: 42,
                   decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [AppColors.primary, AppColors.primaryLight],
+                    gradient: LinearGradient(colors: [context.colors.primary, context.colors.primaryLight],
                     ),
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -610,10 +613,10 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(offer.factoryName, style: AppTextStyles.h5),
+                      Text(offer.factoryName, style: context.textStyles.h5),
                       Text(
                         '★ ${offer.factoryRating.toStringAsFixed(1)}',
-                        style: AppTextStyles.caption.copyWith(
+                        style: context.textStyles.caption.copyWith(
                           color: const Color(0xFFF59E0B),
                           fontWeight: FontWeight.w700,
                         ),
@@ -627,8 +630,8 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
                     vertical: 3,
                   ),
                   decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [AppColors.accent, AppColors.accentLight],
+                    gradient: LinearGradient(
+                      colors: [context.colors.accent, context.colors.accentLight],
                     ),
                     borderRadius: BorderRadius.circular(6),
                   ),
@@ -653,8 +656,8 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
               children: [
                 Text(
                   'تفاصيل الاتفاق',
-                  style: AppTextStyles.label.copyWith(
-                    color: AppColors.textSecondary,
+                  style: context.textStyles.label.copyWith(
+                    color: context.colors.textSecondary,
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -676,24 +679,24 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
                     vertical: 10,
                   ),
                   decoration: BoxDecoration(
-                    color: AppColors.primaryPale,
+                    color: context.colors.primaryPale,
                     borderRadius: BorderRadius.circular(AppConstants.radiusSm),
-                    border: Border.all(color: AppColors.primary, width: 1.5),
+                    border: Border.all(color: context.colors.primary, width: 1.5),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         '💰 الإجمالي المتوقع',
-                        style: AppTextStyles.label.copyWith(
-                          color: AppColors.primary,
+                        style: context.textStyles.label.copyWith(
+                          color: context.colors.primary,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
                       Text(
                         offer.totalFormatted,
-                        style: AppTextStyles.h3.copyWith(
-                          color: AppColors.primary,
+                        style: context.textStyles.h3.copyWith(
+                          color: context.colors.primary,
                         ),
                       ),
                     ],
@@ -711,12 +714,12 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
               duration: const Duration(milliseconds: 150),
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: AppColors.warningBg,
+                color: context.colors.warningBg,
                 borderRadius: BorderRadius.circular(AppConstants.radiusSm),
                 border: Border.all(
                   color: _agreed
-                      ? AppColors.warning
-                      : AppColors.warning.withValues(alpha: 0.3),
+                      ? context.colors.warning
+                      : context.colors.warning.withValues(alpha: 0.3),
                   width: _agreed ? 1.5 : 1,
                 ),
               ),
@@ -729,9 +732,9 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
                     height: 20,
                     margin: const EdgeInsets.only(top: 2, left: 8),
                     decoration: BoxDecoration(
-                      color: _agreed ? AppColors.warning : Colors.transparent,
+                      color: _agreed ? context.colors.warning : Colors.transparent,
                       borderRadius: BorderRadius.circular(5),
-                      border: Border.all(color: AppColors.warning, width: 1.5),
+                      border: Border.all(color: context.colors.warning, width: 1.5),
                     ),
                     child: _agreed
                         ? const Icon(
@@ -744,8 +747,8 @@ class _OrderSummaryPageState extends State<OrderSummaryPage> {
                   Expanded(
                     child: Text(
                       'أوافق على الشروط وتفاصيل الطلب المذكورة أعلاه. أفهم إن الإجمالي المتوقع هو ${offer.totalFormatted}.',
-                      style: AppTextStyles.bodySm.copyWith(
-                        color: AppColors.textPrimary,
+                      style: context.textStyles.bodySm.copyWith(
+                        color: context.colors.textPrimary,
                       ),
                     ),
                   ),
@@ -796,10 +799,10 @@ class _OrderLine extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: AppTextStyles.bodySm),
+          Text(label, style: context.textStyles.bodySm),
           Text(
             value,
-            style: AppTextStyles.label.copyWith(fontWeight: FontWeight.w700),
+            style: context.textStyles.label.copyWith(fontWeight: FontWeight.w700),
           ),
         ],
       ),

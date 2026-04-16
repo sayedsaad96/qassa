@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:qassa/core/theme/theme_context_extension.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_constants.dart';
-import '../../../../core/constants/app_text_styles.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/widgets/app_widgets.dart';
@@ -61,9 +60,9 @@ class _CreateRequestPageState extends State<CreateRequestPage> {
           }
         },
         child: Scaffold(
-          backgroundColor: AppColors.surface,
+          backgroundColor: context.colors.surface,
           appBar: AppBar(
-            backgroundColor: AppColors.surface,
+            backgroundColor: context.colors.surface,
             title: const Text('إنشاء طلب'),
             leading: IconButton(
               icon: const Icon(Icons.close_rounded),
@@ -95,11 +94,11 @@ class _CreateRequestPageState extends State<CreateRequestPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('إيه نوع المنتج والكمية؟', style: AppTextStyles.h3),
+          Text('إيه نوع المنتج والكمية؟', style: context.textStyles.h3),
           const SizedBox(height: 20),
 
           // Product type
-          Text('النوع', style: AppTextStyles.label),
+          Text('النوع', style: context.textStyles.label),
           const SizedBox(height: 8),
           GridView.builder(
             shrinkWrap: true,
@@ -121,17 +120,17 @@ class _CreateRequestPageState extends State<CreateRequestPage> {
                   duration: const Duration(milliseconds: 150),
                   decoration: BoxDecoration(
                     color: isSelected
-                        ? AppColors.primaryPale
-                        : AppColors.background,
+                        ? context.colors.primaryPale
+                        : context.colors.background,
                     border: Border.all(
-                      color: isSelected ? AppColors.primary : AppColors.border,
+                      color: isSelected ? context.colors.primary : context.colors.border,
                       width: isSelected ? 2 : 1.5,
                     ),
                     borderRadius: BorderRadius.circular(AppConstants.radiusMd),
                     boxShadow: isSelected
                         ? [
                             BoxShadow(
-                              color: AppColors.primary.withValues(alpha: 0.15),
+                              color: context.colors.primary.withValues(alpha: 0.15),
                               blurRadius: 8,
                             ),
                           ]
@@ -147,11 +146,11 @@ class _CreateRequestPageState extends State<CreateRequestPage> {
                       const SizedBox(height: 4),
                       Text(
                         label,
-                        style: AppTextStyles.caption.copyWith(
+                        style: context.textStyles.caption.copyWith(
                           fontWeight: FontWeight.w700,
                           color: isSelected
-                              ? AppColors.primary
-                              : AppColors.textPrimary,
+                              ? context.colors.primary
+                              : context.colors.textPrimary,
                         ),
                       ),
                     ],
@@ -163,7 +162,7 @@ class _CreateRequestPageState extends State<CreateRequestPage> {
           const SizedBox(height: 20),
 
           // Quantity
-          Text('الكمية', style: AppTextStyles.label),
+          Text('الكمية', style: context.textStyles.label),
           const SizedBox(height: 8),
           Row(
             children: [
@@ -171,14 +170,14 @@ class _CreateRequestPageState extends State<CreateRequestPage> {
                 width: 80,
                 height: 44,
                 decoration: BoxDecoration(
-                  color: AppColors.primaryPale,
-                  border: Border.all(color: AppColors.primaryLight, width: 1.5),
+                  color: context.colors.primaryPale,
+                  border: Border.all(color: context.colors.primaryLight, width: 1.5),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Center(
                   child: Text(
                     '$_quantity',
-                    style: AppTextStyles.h4.copyWith(color: AppColors.primary),
+                    style: context.textStyles.h4.copyWith(color: context.colors.primary),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -190,26 +189,26 @@ class _CreateRequestPageState extends State<CreateRequestPage> {
                   min: 100,
                   max: 5000,
                   divisions: 49,
-                  activeColor: AppColors.primary,
-                  inactiveColor: AppColors.border,
+                  activeColor: context.colors.primary,
+                  inactiveColor: context.colors.border,
                   onChanged: (v) => setState(() => _quantity = v.round()),
                 ),
               ),
-              Text('قطعة', style: AppTextStyles.caption),
+              Text('قطعة', style: context.textStyles.caption),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('100', style: AppTextStyles.caption),
-              Text('2500', style: AppTextStyles.caption),
-              Text('5000+', style: AppTextStyles.caption),
+              Text('100', style: context.textStyles.caption),
+              Text('2500', style: context.textStyles.caption),
+              Text('5000+', style: context.textStyles.caption),
             ],
           ),
           const SizedBox(height: 20),
 
           // Quality Segment
-          Text('مستوى الجودة المطلوب', style: AppTextStyles.label),
+          Text('مستوى الجودة المطلوب', style: context.textStyles.label),
           const SizedBox(height: 8),
           SegmentedButton<RequestQuality>(
             segments: const [
@@ -231,26 +230,26 @@ class _CreateRequestPageState extends State<CreateRequestPage> {
                 Set<WidgetState> states,
               ) {
                 if (states.contains(WidgetState.selected)) {
-                  return AppColors.primaryPale; // selected
+                  return context.colors.primaryPale; // selected
                 }
-                return AppColors.background; // normal
+                return context.colors.background; // normal
               }),
               side: WidgetStateProperty.resolveWith<BorderSide>((
                 Set<WidgetState> states,
               ) {
                 if (states.contains(WidgetState.selected)) {
-                  return const BorderSide(color: AppColors.primary, width: 1.5);
+                  return BorderSide(color: context.colors.primary, width: 1.5);
                 }
-                return const BorderSide(color: AppColors.border, width: 1);
+                return BorderSide(color: context.colors.border, width: 1);
               }),
             ),
           ),
           const SizedBox(height: 20),
 
           // Material (P2 fix)
-          Text('الخامة', style: AppTextStyles.label),
+          Text('الخامة', style: context.textStyles.label),
           const SizedBox(height: 4),
-          Text('اختياري — يساعد في دقة العروض', style: AppTextStyles.caption),
+          Text('اختياري — يساعد في دقة العروض', style: context.textStyles.caption),
           const SizedBox(height: 8),
           Wrap(
             spacing: 8,
@@ -284,11 +283,11 @@ class _CreateRequestPageState extends State<CreateRequestPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('تفاصيل إضافية', style: AppTextStyles.h3),
+          Text('تفاصيل إضافية', style: context.textStyles.h3),
           const SizedBox(height: 6),
           Text(
             'هذه الخطوة اختيارية — تفاصيل أكتر تجيب عروض أفضل',
-            style: AppTextStyles.bodySm,
+            style: context.textStyles.bodySm,
           ),
           const SizedBox(height: 16),
 
@@ -297,11 +296,10 @@ class _CreateRequestPageState extends State<CreateRequestPage> {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [AppColors.primaryPale, Color(0xFFDBEAFE)],
+                gradient: LinearGradient(colors: [context.colors.primaryPale, Color(0xFFDBEAFE)],
                 ),
                 borderRadius: BorderRadius.circular(AppConstants.radiusSm),
-                border: Border.all(color: AppColors.primaryPale),
+                border: Border.all(color: context.colors.primaryPale),
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -311,8 +309,8 @@ class _CreateRequestPageState extends State<CreateRequestPage> {
                   Expanded(
                     child: Text(
                       _marketHint,
-                      style: AppTextStyles.caption.copyWith(
-                        color: AppColors.primary,
+                      style: context.textStyles.caption.copyWith(
+                        color: context.colors.primary,
                       ),
                     ),
                   ),
@@ -323,8 +321,8 @@ class _CreateRequestPageState extends State<CreateRequestPage> {
           ],
 
           // Target price
-          Text('السعر المستهدف للقطعة', style: AppTextStyles.label),
-          Text('اختياري', style: AppTextStyles.caption),
+          Text('السعر المستهدف للقطعة', style: context.textStyles.label),
+          Text('اختياري', style: context.textStyles.caption),
           const SizedBox(height: 6),
           Row(
             children: [
@@ -340,8 +338,8 @@ class _CreateRequestPageState extends State<CreateRequestPage> {
               const SizedBox(width: 8),
               Text(
                 'جنيه / قطعة',
-                style: AppTextStyles.body.copyWith(
-                  color: AppColors.textSecondary,
+                style: context.textStyles.body.copyWith(
+                  color: context.colors.textSecondary,
                 ),
               ),
             ],
@@ -349,8 +347,8 @@ class _CreateRequestPageState extends State<CreateRequestPage> {
           const SizedBox(height: 14),
 
           // Image upload placeholder
-          Text('صورة مرجعية', style: AppTextStyles.label),
-          Text('اختياري', style: AppTextStyles.caption),
+          Text('صورة مرجعية', style: context.textStyles.label),
+          Text('اختياري', style: context.textStyles.caption),
           const SizedBox(height: 6),
           GestureDetector(
             onTap: () {
@@ -360,16 +358,16 @@ class _CreateRequestPageState extends State<CreateRequestPage> {
               width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 18),
               decoration: BoxDecoration(
-                color: AppColors.background,
-                border: Border.all(color: AppColors.border2, width: 1.5),
+                color: context.colors.background,
+                border: Border.all(color: context.colors.border2, width: 1.5),
                 borderRadius: BorderRadius.circular(AppConstants.radiusMd),
               ),
               child: Column(
                 children: [
                   const Text('📎', style: TextStyle(fontSize: 26)),
                   const SizedBox(height: 6),
-                  Text('اضغط لرفع صورة', style: AppTextStyles.bodySm),
-                  Text('JPG / PNG · حد أقصى 5MB', style: AppTextStyles.caption),
+                  Text('اضغط لرفع صورة', style: context.textStyles.bodySm),
+                  Text('JPG / PNG · حد أقصى 5MB', style: context.textStyles.caption),
                 ],
               ),
             ),
@@ -377,8 +375,8 @@ class _CreateRequestPageState extends State<CreateRequestPage> {
           const SizedBox(height: 14),
 
           // Notes
-          Text('ملاحظة للمصنع', style: AppTextStyles.label),
-          Text('اختياري', style: AppTextStyles.caption),
+          Text('ملاحظة للمصنع', style: context.textStyles.label),
+          Text('اختياري', style: context.textStyles.caption),
           const SizedBox(height: 6),
           AppTextField(
             hint: 'أي تفاصيل مهمة للمصنع…',
@@ -439,7 +437,7 @@ class _StepBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-      color: AppColors.surface,
+      color: context.colors.surface,
       child: Row(
         children: List.generate(totalSteps * 2 - 1, (i) {
           if (i.isEven) {
@@ -452,13 +450,13 @@ class _StepBar extends StatelessWidget {
               height: 26,
               decoration: BoxDecoration(
                 color: (isDone || isActive)
-                    ? AppColors.primary
-                    : AppColors.border,
+                    ? context.colors.primary
+                    : context.colors.border,
                 shape: BoxShape.circle,
                 boxShadow: isActive
                     ? [
                         BoxShadow(
-                          color: AppColors.primary.withValues(alpha: 0.3),
+                          color: context.colors.primary.withValues(alpha: 0.3),
                           blurRadius: 8,
                           spreadRadius: 2,
                         ),
@@ -477,7 +475,7 @@ class _StepBar extends StatelessWidget {
                         style: TextStyle(
                           color: (isActive)
                               ? Colors.white
-                              : AppColors.textDisabled,
+                              : context.colors.textDisabled,
                           fontSize: 11,
                           fontWeight: FontWeight.w700,
                         ),
@@ -490,8 +488,8 @@ class _StepBar extends StatelessWidget {
               child: Container(
                 height: 2,
                 color: lineStep < currentStep
-                    ? AppColors.primary
-                    : AppColors.border,
+                    ? context.colors.primary
+                    : context.colors.border,
               ),
             );
           }

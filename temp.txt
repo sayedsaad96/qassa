@@ -1,0 +1,141 @@
+﻿Analyzing qassa...
+
+  error - lib\core\utils\performance_utils.dart:63:26 - The method '_ErrorPlaceholder' isn't defined for the type 'AppNetworkImage'. Try correcting the name to the name of an existing method, or defining a method named '_ErrorPlaceholder'. - undefined_method
+  error - lib\core\utils\performance_utils.dart:76:7 - Missing concrete implementation of 'StatelessWidget.build'. Try implementing the missing method, or make the class abstract. - non_abstract_class_inherits_abstract_member
+  error - lib\core\utils\performance_utils.dart:97:1 - Classes can't be declared inside other classes. Try moving the class to the top-level. - class_in_class
+  error - lib\core\utils\performance_utils.dart:97:24 - Expected a class member. Try placing this code inside a class member. - expected_class_member
+  error - lib\core\utils\performance_utils.dart:97:32 - Methods must have an explicit list of parameters. Try adding a parameter list. - missing_method_parameters
+  error - lib\core\utils\performance_utils.dart:99:9 - The name 'KeepAliveWrapper' isn't a class. Try correcting the name to match an existing class. - creation_with_non_type
+  error - lib\core\utils\performance_utils.dart:99:47 - Expected to find ','. - expected_token
+  error - lib\core\utils\performance_utils.dart:99:52 - The getter 'child' isn't defined for the type '_Placeholder'. Try importing the library that defines 'child', correcting the name to the name of an existing getter, or defining a getter or field named 'child'. - undefined_getter
+  error - lib\core\utils\performance_utils.dart:102:3 - State isn't a type. Try correcting the name to match an existing type. - not_a_type
+           - The declaration of 'State' is here at lib\core\utils\performance_utils.dart:105:38.
+  error - lib\core\utils\performance_utils.dart:102:9 - The name 'KeepAliveWrapper' isn't a type, so it can't be used as a type argument. Try correcting the name to an existing type, or defining a type named 'KeepAliveWrapper'. - non_type_as_type_argument
+  error - lib\core\utils\performance_utils.dart:102:44 - The method '_KeepAliveWrapperState' isn't defined for the type '_Placeholder'. Try correcting the name to the name of an existing method, or defining a method named '_KeepAliveWrapperState'. - undefined_method
+  error - lib\core\utils\performance_utils.dart:105:1 - Classes can't be declared inside other classes. Try moving the class to the top-level. - class_in_class
+  error - lib\core\utils\performance_utils.dart:105:30 - Expected a class member. Try placing this code inside a class member. - expected_class_member
+  error - lib\core\utils\performance_utils.dart:105:38 - Methods must have an explicit list of parameters. Try adding a parameter list. - missing_method_parameters
+  error - lib\core\utils\performance_utils.dart:106:5 - A function body must be provided. Try adding a function body. - missing_function_body
+  error - lib\core\utils\performance_utils.dart:106:5 - Expected a class member. Try placing this code inside a class member. - expected_class_member
+  error - lib\core\utils\performance_utils.dart:106:10 - Methods must have an explicit list of parameters. Try adding a parameter list. - missing_method_parameters
+  error - lib\core\utils\performance_utils.dart:108:8 - Expected to find ';'. - expected_token
+  error - lib\core\utils\performance_utils.dart:108:26 - Functions must have an explicit list of parameters. Try adding a parameter list. - missing_function_parameters
+  error - lib\core\utils\performance_utils.dart:112:11 - The method 'build' is always abstract in the supertype. - abstract_super_member_reference
+  error - lib\core\utils\performance_utils.dart:113:12 - Undefined name 'widget'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - lib\core\utils\performance_utils.dart:121:1 - Classes can't be declared inside other classes. Try moving the class to the top-level. - class_in_class
+  error - lib\core\utils\performance_utils.dart:121:34 - Expected a class member. Try placing this code inside a class member. - expected_class_member
+  error - lib\core\utils\performance_utils.dart:121:42 - Methods must have an explicit list of parameters. Try adding a parameter list. - missing_method_parameters
+  error - lib\core\utils\performance_utils.dart:125:9 - The name 'SliverPinnedHeaderDelegate' isn't a class. Try correcting the name to match an existing class. - creation_with_non_type
+  error - lib\core\utils\performance_utils.dart:126:14 - Expected to find ','. - expected_token
+  error - lib\core\utils\performance_utils.dart:127:14 - Expected to find ','. - expected_token
+  error - lib\core\utils\performance_utils.dart:127:19 - The getter 'child' isn't defined for the type '_Placeholder'. Try importing the library that defines 'child', correcting the name to the name of an existing getter, or defining a getter or field named 'child'. - undefined_getter
+  error - lib\core\utils\performance_utils.dart:133:35 - The final variable 'child' can't be read because it's potentially unassigned at this point. Ensure that it is assigned on necessary execution paths. - read_potentially_unassigned_final
+  error - lib\core\utils\performance_utils.dart:137:10 - Expected to find ';'. - expected_token
+  error - lib\core\utils\performance_utils.dart:137:24 - Functions must have an explicit list of parameters. Try adding a parameter list. - missing_function_parameters
+  error - lib\core\utils\performance_utils.dart:137:27 - The final variable 'height' can't be read because it's potentially unassigned at this point. Ensure that it is assigned on necessary execution paths. - read_potentially_unassigned_final
+  error - lib\core\utils\performance_utils.dart:139:10 - Expected to find ';'. - expected_token
+  error - lib\core\utils\performance_utils.dart:139:10 - The name 'get' is already defined. Try renaming one of the declarations. - duplicate_definition
+           - The first definition of this name at lib\core\utils\performance_utils.dart:137:10.
+  error - lib\core\utils\performance_utils.dart:139:24 - Functions must have an explicit list of parameters. Try adding a parameter list. - missing_function_parameters
+  error - lib\core\utils\performance_utils.dart:139:27 - The final variable 'height' can't be read because it's potentially unassigned at this point. Ensure that it is assigned on necessary execution paths. - read_potentially_unassigned_final
+  error - lib\core\utils\performance_utils.dart:141:22 - Undefined class 'SliverPinnedHeaderDelegate'. Try changing the name to the name of an existing class, or creating a class with the name 'SliverPinnedHeaderDelegate'. - undefined_class
+  error - lib\core\utils\performance_utils.dart:142:21 - The final variable 'height' can't be read because it's potentially unassigned at this point. Ensure that it is assigned on necessary execution paths. - read_potentially_unassigned_final
+  error - lib\core\utils\performance_utils.dart:142:44 - The final variable 'child' can't be read because it's potentially unassigned at this point. Ensure that it is assigned on necessary execution paths. - read_potentially_unassigned_final
+  error - lib\core\utils\performance_utils.dart:144:1 - Expected to find '}'. - expected_token
+  error - lib\core\widgets\app_widgets.dart:176:16 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - lib\core\widgets\app_widgets.dart:178:16 - Undefined name 'context'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - lib\features\brand\presentation\pages\brand_home_page.dart:75:27 - Invalid constant value. - invalid_constant
+  error - lib\features\brand\presentation\pages\brand_home_page.dart:226:28 - Invalid constant value. - invalid_constant
+  error - lib\features\brand\presentation\pages\factories_list_page.dart:145:36 - Invalid constant value. - invalid_constant
+  error - lib\features\brand\presentation\pages\factories_list_page.dart:245:44 - Invalid constant value. - invalid_constant
+  error - lib\features\brand\presentation\pages\factories_list_page.dart:348:30 - Invalid constant value. - invalid_constant
+  error - lib\features\brand\presentation\pages\factories_list_page.dart:414:34 - Invalid constant value. - invalid_constant
+  error - lib\features\brand\presentation\pages\factories_list_page.dart:456:24 - Invalid constant value. - invalid_constant
+  error - lib\features\brand\presentation\pages\factories_list_page.dart:648:16 - Invalid constant value. - invalid_constant
+  error - lib\features\brand\presentation\pages\factories_list_page.dart:1071:30 - Invalid constant value. - invalid_constant
+  error - lib\features\brand\presentation\pages\factories_list_page.dart:1183:49 - Invalid constant value. - invalid_constant
+  error - lib\features\brand\presentation\pages\offers_page.dart:443:55 - Invalid constant value. - invalid_constant
+  error - lib\features\brand\presentation\pages\offers_page.dart:636:32 - Invalid constant value. - invalid_constant
+  error - lib\features\factory\presentation\pages\factory_dashboard_page.dart:80:51 - Invalid constant value. - invalid_constant
+  error - lib\features\factory\presentation\pages\factory_profile_setup_page.dart:323:43 - Invalid constant value. - invalid_constant
+  error - lib\features\factory\presentation\pages\factory_requests_page.dart:124:22 - Invalid constant value. - invalid_constant
+  error - lib\features\factory\presentation\pages\request_detail_page.dart:124:40 - Invalid constant value. - invalid_constant
+  error - lib\features\factory\presentation\pages\request_detail_page.dart:265:47 - Invalid constant value. - invalid_constant
+  error - lib\features\factory\presentation\pages\request_detail_page.dart:279:20 - Invalid constant value. - invalid_constant
+  error - lib\main.dart:31:11 - The function 'configurePerformance' isn't defined. Try importing the library that defines 'configurePerformance', correcting the name to the name of an existing function, or defining a function named 'configurePerformance'. - undefined_function
+warning - lib\core\utils\performance_utils.dart:98:16 - The value of the local variable 'child' isn't used. Try removing the variable or using it. - unused_local_variable
+warning - lib\core\utils\performance_utils.dart:102:27 - The declaration 'createState' isn't referenced. Try removing the declaration of 'createState'. - unused_element
+warning - lib\core\utils\performance_utils.dart:108:8 - The value of the local variable 'get' isn't used. Try removing the variable or using it. - unused_local_variable
+warning - lib\core\utils\performance_utils.dart:108:12 - The declaration 'wantKeepAlive' isn't referenced. Try removing the declaration of 'wantKeepAlive'. - unused_element
+warning - lib\core\utils\performance_utils.dart:111:10 - The declaration 'build' isn't referenced. Try removing the declaration of 'build'. - unused_element
+warning - lib\core\utils\performance_utils.dart:131:10 - The declaration 'build' isn't referenced. Try removing the declaration of 'build'. - unused_element
+warning - lib\core\utils\performance_utils.dart:137:10 - The value of the local variable 'get' isn't used. Try removing the variable or using it. - unused_local_variable
+warning - lib\core\utils\performance_utils.dart:137:14 - The declaration 'maxExtent' isn't referenced. Try removing the declaration of 'maxExtent'. - unused_element
+warning - lib\core\utils\performance_utils.dart:139:10 - The value of the local variable 'get' isn't used. Try removing the variable or using it. - unused_local_variable
+warning - lib\core\utils\performance_utils.dart:139:14 - The declaration 'minExtent' isn't referenced. Try removing the declaration of 'minExtent'. - unused_element
+warning - lib\core\utils\performance_utils.dart:141:8 - The declaration 'shouldRebuild' isn't referenced. Try removing the declaration of 'shouldRebuild'. - unused_element
+warning - lib\core\widgets\app_asset_widgets.dart:4:8 - Unused import: '../constants/app_colors.dart'. Try removing the import directive. - unused_import
+warning - lib\core\widgets\app_asset_widgets.dart:6:8 - Unused import: '../constants/app_text_styles.dart'. Try removing the import directive. - unused_import
+warning - lib\features\auth\presentation\pages\edit_profile_page.dart:3:8 - Unused import: '../../../../core/constants/app_colors.dart'. Try removing the import directive. - unused_import
+warning - lib\features\auth\presentation\pages\edit_profile_page.dart:5:8 - Unused import: '../../../../core/constants/app_text_styles.dart'. Try removing the import directive. - unused_import
+warning - lib\features\auth\presentation\pages\email_auth_page.dart:5:8 - Unused import: '../../../../core/constants/app_colors.dart'. Try removing the import directive. - unused_import
+warning - lib\features\auth\presentation\pages\email_auth_page.dart:7:8 - Unused import: '../../../../core/constants/app_text_styles.dart'. Try removing the import directive. - unused_import
+warning - lib\features\auth\presentation\pages\help_support_page.dart:3:8 - Unused import: '../../../../core/constants/app_colors.dart'. Try removing the import directive. - unused_import
+warning - lib\features\auth\presentation\pages\help_support_page.dart:4:8 - Unused import: '../../../../core/constants/app_text_styles.dart'. Try removing the import directive. - unused_import
+warning - lib\features\auth\presentation\pages\notifications_settings_page.dart:3:8 - Unused import: '../../../../core/constants/app_colors.dart'. Try removing the import directive. - unused_import
+warning - lib\features\auth\presentation\pages\notifications_settings_page.dart:4:8 - Unused import: '../../../../core/constants/app_text_styles.dart'. Try removing the import directive. - unused_import
+warning - lib\features\auth\presentation\pages\onboarding_page.dart:6:8 - Unused import: '../../../../core/constants/app_colors.dart'. Try removing the import directive. - unused_import
+warning - lib\features\auth\presentation\pages\onboarding_page.dart:8:8 - Unused import: '../../../../core/constants/app_text_styles.dart'. Try removing the import directive. - unused_import
+warning - lib\features\auth\presentation\pages\privacy_security_page.dart:3:8 - Unused import: '../../../../core/constants/app_colors.dart'. Try removing the import directive. - unused_import
+warning - lib\features\auth\presentation\pages\privacy_security_page.dart:4:8 - Unused import: '../../../../core/constants/app_text_styles.dart'. Try removing the import directive. - unused_import
+warning - lib\features\auth\presentation\pages\profile_page.dart:7:8 - Unused import: '../../../../core/constants/app_colors.dart'. Try removing the import directive. - unused_import
+warning - lib\features\auth\presentation\pages\profile_page.dart:9:8 - Unused import: '../../../../core/constants/app_text_styles.dart'. Try removing the import directive. - unused_import
+warning - lib\features\auth\presentation\pages\role_selection_page.dart:4:8 - Unused import: '../../../../core/constants/app_colors.dart'. Try removing the import directive. - unused_import
+warning - lib\features\auth\presentation\pages\role_selection_page.dart:6:8 - Unused import: '../../../../core/constants/app_text_styles.dart'. Try removing the import directive. - unused_import
+warning - lib\features\auth\presentation\pages\splash_page.dart:6:8 - Unused import: '../../../../core/constants/app_colors.dart'. Try removing the import directive. - unused_import
+warning - lib\features\auth\presentation\pages\splash_page.dart:7:8 - Unused import: '../../../../core/constants/app_text_styles.dart'. Try removing the import directive. - unused_import
+warning - lib\features\brand\presentation\pages\brand_home_page.dart:6:8 - Unused import: '../../../../core/constants/app_colors.dart'. Try removing the import directive. - unused_import
+warning - lib\features\brand\presentation\pages\brand_home_page.dart:8:8 - Unused import: '../../../../core/constants/app_text_styles.dart'. Try removing the import directive. - unused_import
+warning - lib\features\brand\presentation\pages\brand_shell_page.dart:4:8 - Unused import: '../../../../core/constants/app_colors.dart'. Try removing the import directive. - unused_import
+warning - lib\features\brand\presentation\pages\brand_shell_page.dart:5:8 - Unused import: '../../../../core/constants/app_text_styles.dart'. Try removing the import directive. - unused_import
+warning - lib\features\brand\presentation\pages\create_request_page.dart:5:8 - Unused import: '../../../../core/constants/app_colors.dart'. Try removing the import directive. - unused_import
+warning - lib\features\brand\presentation\pages\create_request_page.dart:7:8 - Unused import: '../../../../core/constants/app_text_styles.dart'. Try removing the import directive. - unused_import
+warning - lib\features\brand\presentation\pages\factories_list_page.dart:7:8 - Unused import: '../../../../core/constants/app_colors.dart'. Try removing the import directive. - unused_import
+warning - lib\features\brand\presentation\pages\factories_list_page.dart:9:8 - Unused import: '../../../../core/constants/app_text_styles.dart'. Try removing the import directive. - unused_import
+warning - lib\features\brand\presentation\pages\my_requests_page.dart:7:8 - Unused import: '../../../../core/constants/app_colors.dart'. Try removing the import directive. - unused_import
+warning - lib\features\brand\presentation\pages\my_requests_page.dart:9:8 - Unused import: '../../../../core/constants/app_text_styles.dart'. Try removing the import directive. - unused_import
+warning - lib\features\brand\presentation\pages\notif_prime_page.dart:5:8 - Unused import: '../../../../core/constants/app_colors.dart'. Try removing the import directive. - unused_import
+warning - lib\features\brand\presentation\pages\notif_prime_page.dart:7:8 - Unused import: '../../../../core/constants/app_text_styles.dart'. Try removing the import directive. - unused_import
+warning - lib\features\brand\presentation\pages\offers_page.dart:7:8 - Unused import: '../../../../core/constants/app_colors.dart'. Try removing the import directive. - unused_import
+warning - lib\features\brand\presentation\pages\offers_page.dart:9:8 - Unused import: '../../../../core/constants/app_text_styles.dart'. Try removing the import directive. - unused_import
+warning - lib\features\factory\presentation\pages\factory_dashboard_page.dart:4:8 - Unused import: '../../../../core/constants/app_colors.dart'. Try removing the import directive. - unused_import
+warning - lib\features\factory\presentation\pages\factory_dashboard_page.dart:6:8 - Unused import: '../../../../core/constants/app_text_styles.dart'. Try removing the import directive. - unused_import
+warning - lib\features\factory\presentation\pages\factory_offers_page.dart:7:8 - Unused import: '../../../../core/constants/app_colors.dart'. Try removing the import directive. - unused_import
+warning - lib\features\factory\presentation\pages\factory_offers_page.dart:9:8 - Unused import: '../../../../core/constants/app_text_styles.dart'. Try removing the import directive. - unused_import
+warning - lib\features\factory\presentation\pages\factory_profile_setup_page.dart:6:8 - Unused import: '../../../../core/constants/app_colors.dart'. Try removing the import directive. - unused_import
+warning - lib\features\factory\presentation\pages\factory_requests_page.dart:7:8 - Unused import: '../../../../core/constants/app_colors.dart'. Try removing the import directive. - unused_import
+warning - lib\features\factory\presentation\pages\factory_requests_page.dart:9:8 - Unused import: '../../../../core/constants/app_text_styles.dart'. Try removing the import directive. - unused_import
+warning - lib\features\factory\presentation\pages\factory_shell_page.dart:4:8 - Unused import: '../../../../core/constants/app_colors.dart'. Try removing the import directive. - unused_import
+warning - lib\features\factory\presentation\pages\request_detail_page.dart:4:8 - Unused import: '../../../../core/constants/app_colors.dart'. Try removing the import directive. - unused_import
+warning - lib\features\factory\presentation\pages\request_detail_page.dart:6:8 - Unused import: '../../../../core/constants/app_text_styles.dart'. Try removing the import directive. - unused_import
+warning - lib\features\factory\presentation\pages\send_offer_page.dart:5:8 - Unused import: '../../../../core/constants/app_colors.dart'. Try removing the import directive. - unused_import
+warning - lib\features\factory\presentation\pages\send_offer_page.dart:7:8 - Unused import: '../../../../core/constants/app_text_styles.dart'. Try removing the import directive. - unused_import
+warning - lib\features\notifications\presentation\pages\notifications_page.dart:6:8 - Unused import: '../../../../core/constants/app_colors.dart'. Try removing the import directive. - unused_import
+warning - lib\features\notifications\presentation\pages\notifications_page.dart:8:8 - Unused import: '../../../../core/constants/app_text_styles.dart'. Try removing the import directive. - unused_import
+warning - lib\features\notifications\presentation\widgets\notification_bell.dart:5:8 - Unused import: '../../../../core/constants/app_colors.dart'. Try removing the import directive. - unused_import
+   info - fix_const.dart:18:7 - Don't invoke 'print' in production code. Try using a logging framework. - avoid_print
+   info - fix_const.dart:41:5 - Don't invoke 'print' in production code. Try using a logging framework. - avoid_print
+   info - lib\core\utils\performance_utils.dart:97:32 - Missing type annotation. Try adding a type annotation. - strict_top_level_inference
+   info - lib\core\utils\performance_utils.dart:97:32 - The variable name 'StatefulWidget' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style. - non_constant_identifier_names
+   info - lib\core\utils\performance_utils.dart:99:38 - 'required' is deprecated and shouldn't be used. In Dart 2.12 and later, use the built-in `required` keyword to mark a named parameter as required. Try replacing the use of the deprecated member with the replacement. - deprecated_member_use
+   info - lib\core\utils\performance_utils.dart:105:38 - Missing type annotation. Try adding a type annotation. - strict_top_level_inference
+   info - lib\core\utils\performance_utils.dart:105:38 - The variable name 'State' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style. - non_constant_identifier_names
+   info - lib\core\utils\performance_utils.dart:106:10 - Missing type annotation. Try adding a type annotation. - strict_top_level_inference
+   info - lib\core\utils\performance_utils.dart:106:10 - The variable name 'AutomaticKeepAliveClientMixin' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style. - non_constant_identifier_names
+   info - lib\core\utils\performance_utils.dart:121:42 - Missing type annotation. Try adding a type annotation. - strict_top_level_inference
+   info - lib\core\utils\performance_utils.dart:121:42 - The variable name 'SliverPersistentHeaderDelegate' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style. - non_constant_identifier_names
+   info - lib\core\utils\performance_utils.dart:126:5 - 'required' is deprecated and shouldn't be used. In Dart 2.12 and later, use the built-in `required` keyword to mark a named parameter as required. Try replacing the use of the deprecated member with the replacement. - deprecated_member_use
+   info - lib\core\utils\performance_utils.dart:127:5 - 'required' is deprecated and shouldn't be used. In Dart 2.12 and later, use the built-in `required` keyword to mark a named parameter as required. Try replacing the use of the deprecated member with the replacement. - deprecated_member_use
+   info - replace_script.dart:30:3 - Don't invoke 'print' in production code. Try using a logging framework. - avoid_print
+
+135 issues found.
